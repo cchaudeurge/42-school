@@ -1,0 +1,7 @@
+For norminette indentation errors - In Vim (in normal mode [Esc])
+	shiftg=gg
+Vim settings file - In terminal
+	vim ~/.vimrc
+Terminal settings file - In terminal
+	vim ~/.zshrc (to edit)
+	. ~/.zshrc (to implement changes after each edit)
