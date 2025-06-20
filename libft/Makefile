@@ -6,7 +6,7 @@
 #    By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/06 17:11:06 by cchaudeu          #+#    #+#              #
-#    Updated: 2025/06/09 23:08:34 by cchaudeu         ###   ########.fr        #
+#    Updated: 2025/06/20 17:20:25 by cchaudeu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,16 +20,21 @@ SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	   ft_strjoin.c ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c \
 	   ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c \
 	   ft_tolower.c ft_toupper.c
+BONUS_SRCS = ft_lstmap.c ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c\
+			 ft_lstdelone.c ft_lstiter.c ft_lstlast.c ft_lstnew.c ft_lstsize.c
 
 OBJS = $(SRCS:.c=.o)
+BONUS_OBJS = $(BONUS_SRCS:.c=.o) 
 AR = ar rcs
 all: $(NAME)
 $(NAME): $(OBJS)
 	$(AR) $(NAME) $(OBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
+bonus: $(NAME) $(BONUS_OBJS)
+	$(AR) $(NAME) $(BONUS_OBJS)
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(BONUS_OBJS)
 fclean: clean
 	rm -f $(NAME)
 re: fclean all

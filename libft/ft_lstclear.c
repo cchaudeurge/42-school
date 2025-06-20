@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/18 17:54:54 by cchaudeu          #+#    #+#             */
+/*   Updated: 2025/06/20 17:36:57 by cchaudeu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
@@ -7,12 +19,12 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 	if (!lst || !*lst || !del)
 		return ;
 	new_first = *lst;
-	while (*new_first->next)
+	while (new_first->next)
 	{
-		new_first = *new_first->next;
-		ft_delone(*lst, del);
+		new_first = new_first->next;
+		ft_lstdelone(*lst, del);
 		*lst = new_first;
-	}	
-	(*del)(*lst);
+	}
+	del(*lst);
 	*lst = NULL;
 }
