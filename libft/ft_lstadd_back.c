@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 17:54:37 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/06/18 17:59:23 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/06/20 20:49:30 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	if (!lst || !new)
 		return ;
-	new->next = NULL;
 	if (*lst)
 		ft_lstlast(*lst)->next = new;
 	else

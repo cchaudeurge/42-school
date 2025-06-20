@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 17:55:21 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/06/20 17:42:38 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/06/20 19:59:55 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ t_list	*ft_lstnew(void *content)
 {
 	t_list	*new_list;
 
-	if (!content)
-		return (NULL);	
 	new_list = (t_list *)malloc(sizeof(t_list));
 	if (!new_list)
 		return (NULL);

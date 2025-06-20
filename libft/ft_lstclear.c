@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 17:54:54 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/06/20 17:36:57 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/06/20 20:43:37 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 		ft_lstdelone(*lst, del);
 		*lst = new_first;
 	}
-	del(*lst);
+	ft_lstdelone(*lst, del);
 	*lst = NULL;
 }
