@@ -1,42 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/18 17:56:17 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/06/23 14:47:52 by cchaudeu         ###   ########.fr       */
+/*   Created: 2025/06/18 17:54:54 by cchaudeu          #+#    #+#             */
+/*   Updated: 2025/06/23 15:28:41 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstsize(t_list *lst)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	int		size;
-	t_list	*current_node;
+	t_list	*new_first;
 
-	if (!lst)
-		return (0);
-	size = 1;
-	current_node = lst;
-	while (current_node->next)
+	if (!lst || !*lst || !del)
+		return ;
+	new_first = *lst;
+	while (new_first->next)
 	{
-		size++;
-		current_node = current_node->next;
+		new_first = new_first->next;
+		ft_lstdelone(*lst, del);
+		*lst = new_first;
 	}
-	return (size);
+	ft_lstdelone(*lst, del);
+	*lst = NULL;
 }
-
-/*int	ft_lstsize(t_list *lst)
-{
-	if (!lst)
-		return (0);
-	if (lst->next == NULL)
-		return (1);
-	else
-	{
-		return (1 + ft_lstsize(lst->next));
-	}
-}*/

@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/18 17:55:09 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/06/18 21:18:02 by cchaudeu         ###   ########.fr       */
+/*   Created: 2025/06/18 17:56:06 by cchaudeu          #+#    #+#             */
+/*   Updated: 2025/06/23 15:28:03 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstiter(t_list *lst, void (*f)(void *))
+t_list	*ft_lstlast(t_list *lst)
 {
-	t_list	*current_node;
+	t_list	*last_node;
 
-	if (!lst || !f)
-		return ;
-	current_node = lst;
-	while (current_node)
-	{
-		f(current_node->content);
-		current_node = current_node->next;
-	}
+	if (!lst)
+		return (NULL);
+	last_node = lst;
+	while (last_node->next)
+		last_node = last_node->next;
+	return (last_node);
 }
