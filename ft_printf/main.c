@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 15:34:27 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/07/02 20:43:19 by cchaudeu         ###   ########.fr       */
+/*   Created: 2025/07/02 19:21:51 by cchaudeu          #+#    #+#             */
+/*   Updated: 2025/07/02 19:29:16 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*ft_printf.h*/
+#include <stdio.h>
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-
-/*for write*/
-# include <unistd.h>
-/*for printf(testing)*/
-# include <stdio.h>
-
-/*Function Prototypes*/
-
-int	ft_printf(const char *fstr, ...);
+int	main(void)
+{
+	printf("Return: %d\n", printf("Testing %m & %% & %d\n", 0));
+	return (0);
+}

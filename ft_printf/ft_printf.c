@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 13:52:24 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/07/01 22:10:51 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/07/02 20:43:24 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_printf(const char *fstr, ...)
 			if (*fstr && strchr("cspdiuxX%", *fstr))
 				char_count += printargument(argsptr, *fstr);
 			else
-				return (0);
+				char_count += ;
 		}
 	   fstr++;	
 	}
@@ -102,6 +102,8 @@ int printvptr (void *ptr)
 	uintptr_t	address;
 	int			char_count;
 
+	if (!ptr)
+		return (printstr("(nil)");
 	address	= (uintptr_t)ptr;
 	write(1, "0x", 2);
 	char_count = 2;
