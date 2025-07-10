@@ -68,7 +68,8 @@ int	printargument(va_list *argsptr, char c)
 	else if (c == 'd' || c == 'i')
 		return (printdecimal(va_arg(*argsptr, int)));
 	else if (c == 'u')
-		return (printdecimal((int)va_arg(*argsptr, unsigned int)));
+		return (print_in_base((uintptr_t)va_arg(*argsptr, unsigned int),
+				"0123456789", &char_count, 10));
 	else if (c == 'x')
 		return (print_in_base((uintptr_t)va_arg(*argsptr, unsigned int),
 				"0123456789abcdef", &char_count, 16));
