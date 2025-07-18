@@ -2,6 +2,28 @@ For norminette indentation errors - In Vim (in normal mode [Esc])
 	shiftg=gg
 Vim settings file - In terminal
 	vim ~/.vimrc
+//	
+  set cindent                                                                     
+  syntax on                                                                       
+  set backspace=indent,eol,start                                                  
+  set tabstop=4                                                                   
+  set shiftwidth=4                                                                
+  set number                                                                      
+  set relativenumber                                                              
+  filetype plugin indent on                                                       
+  set textwidth=80                                                                
+  set colorcolumn=80                                                              
+  set hlsearch                                                                    
+  set shell=/bin/zsh                                                              
+  inoremap jk <Esc>                                                               
+  inoremap kj <Esc> 
+//
+       
 Terminal settings file - In terminal
 	vim ~/.zshrc (to edit)
+		//
+		  	alias cx='cc -Wall -Wextra -Werror'                                             
+	  		alias norminette='norminette -R CheckForbiddenSourceHeader'                     
+	  		alias paco='/home/cchaudeu/francinette/tester.sh' 
+  		//
 	. ~/.zshrc (to implement changes after each edit)
