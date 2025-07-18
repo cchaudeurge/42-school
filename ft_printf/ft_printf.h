@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:34:27 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/07/04 18:22:42 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/07/18 21:12:56 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 # include <stdint.h>
 /*for write*/
 # include <unistd.h>
-/*for printf(testing)*/
-# include <stdio.h>
 
 /*Function Prototypes*/
 

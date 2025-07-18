@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:51:32 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/07/04 19:24:42 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/07/18 21:15:01 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 int	ft_printf(const char *fstr, ...)
 {
-	va_list	args;
-	va_list	*argsptr;
+	va_list	args;	
 	int		char_count;
 	int		i;
 
 	i = 0;
 	char_count = 0;
 	va_start(args, fstr);
-	argsptr = &args;
+	if (!fstr)
+		return (-1);
 	while (fstr[i])
 	{
 		if (fstr[i] == '%' && is_in_set(fstr[i + 1], "cspdiuxX%"))
 		{
-			char_count += printargument(argsptr, fstr[i + 1]);
+			char_count += printargument(&args, fstr[i + 1]);
 			i += 2;
 		}
 		else
