@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:07:05 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/07/04 19:20:32 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/07/18 17:01:30 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ int	printstr(char *str)
 	int	char_count;
 
 	char_count = 0;
+	if (!str)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
 	while (*str)
 	{
 		write(1, str, 1);
