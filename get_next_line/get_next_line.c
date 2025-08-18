@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 21:15:07 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/08/18 21:45:52 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/08/18 22:24:13 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 	char	*line;
 	int		fd;
 
-	fd = open("/home/cchaudeu/42_core/1_personal_github_repo/get_next_line/test"
-			, 0_RDONLY);
+	fd = open("/home/cchaudeu/42_core/1_personal_github_repo/get_next_line
+			/test", O_RDONLY);
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -39,12 +39,8 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &line, 0) < 0)
 		return (NULL);
-	current = stash;
-	line = NULL;
-	tracker = (t_values *)malloc(sizeof(t_values));
-	tracker->red = 1;
-	tracker->nl_pos = -1;
-	tracker->fail = 0;
+	if (initialize(stash, &current, &line, &tracker))
+		return (NULL);
 	while (has_nl(current, tracker) < 0 && !tracker->fail && tracker->red > 0)
 		tracker->fail += read_into_stash(fd, &current, tracker);
 	if (!tracker->fail)

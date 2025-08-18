@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 21:17:06 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/08/18 21:48:20 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/08/18 22:25:18 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_values
 
 /*TESTING
  * REMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOVE*/
-int		main(void);
+/*int		main(void);*/
 /*get_next_line.c*/
 char	*get_next_line(int fd);
 int		read_into_stash(int fd, t_list **current, t_values *tracker);
@@ -61,5 +61,6 @@ int		strln(char *str);
 int		lstsi(t_list *stash);
 void	free_lst(t_list *stash);
 int		has_nl(t_list *current, t_values *tracker);
-
+int		initialize(t_list *stash, t_list **current, char **line,
+			t_values **tracker);
 #endif
