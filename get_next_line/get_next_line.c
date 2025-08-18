@@ -1,64 +1,143 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/12 21:15:07 by cchaudeu          #+#    #+#             */
+/*   Updated: 2025/08/18 21:45:52 by cchaudeu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "get_next_line.h"
+
+/*int	main(void)
+{
+	char	*line;
+	int		fd;
+
+	fd = open("/home/cchaudeu/42_core/1_personal_github_repo/get_next_line/test"
+			, 0_RDONLY);
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break;
+		printf("%s", line);
+		free(line);
+	}
+	return (0);
+}*/
+
 char	*get_next_line(int fd)
 {
-	static char	*next_line;
-	char		*current_line;
-	char		*buffer;
+	static t_list	*stash = NULL;
+	t_list			*current;
+	char			*line;
+	t_values		*tracker;
 
-	buffer = (char *)malloc(BUFFER_SIZE * sizeof(char));
-	next_line = NULL;
-	current_line = next_line;
-	while (read(fd, buffer, BUFFER_SIZE) == BUFFER_SIZE)
-	{
-
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &line, 0) < 0)
+		return (NULL);
+	current = stash;
+	line = NULL;
+	tracker = (t_values *)malloc(sizeof(t_values));
+	tracker->red = 1;
+	tracker->nl_pos = -1;
+	tracker->fail = 0;
+	while (has_nl(current, tracker) < 0 && !tracker->fail && tracker->red > 0)
+		tracker->fail += read_into_stash(fd, &current, tracker);
+	if (!tracker->fail)
+		current->str = extract(&line, stash, current, tracker);
+	if (tracker->fail)
+		return (free_all(&stash, &current, &line, &tracker));
+	free_lst(stash);
+	stash = current;
+	return (line);
 }
 
-/* Adds the first n characters of a string (str) at the end of a malloced
-string (current_line) by creating a new malloced string and frees the
-current_line string) */
-char	*add2current_line(char *current_line, char *str, size_t n)
+char	*free_all(t_list	**stashptr, t_list **currentptr, char **line,
+		t_values **trackerptr)
 {
-	char	*sum_str;
+	if (*stashptr)
+	{
+		free_lst(*stashptr);
+		*stashptr = NULL;
+	}
+	if (*currentptr)
+		free_lst(*currentptr);
+	if (*line)
+		free(*line);
+	if (*trackerptr)
+		free(*trackerptr);
+	return (NULL);
+}
+
+char	*extract(char **line, t_list *stash, t_list *current, t_values *tracker)
+{
+	int		len;
+	char	*surplus;
 	int		i;
 	int		j;
 
+	surplus = extract_surplus(current, tracker);
+	len = strln(stash->str) + strln(current->str) + ((lstsi(stash) - 2)
+			* BUFFER_SIZE);
+	*line = (char *)malloc(sizeof(char) * (len + 1));
+	if (!*line)
+		tracker->fail++;
 	i = 0;
-	sum_str = (char *)malloc(strlen(current_line) + n + 1);
-	if (!sum_str)
-		return (NULL);
-	if (!current_line)
+	while (stash->next && *line)
 	{
-		copynchars(sum_str, str, n);
-		sum_str[n] = '\0';
-		return (sum_str);
+		j = 0;
+		while (stash->str[j])
+			*line[i++] = stash->str[j++];
+		stash = stash->next;
 	}
-	copynchars(sum_str, current_line, strlen(current_line));
-	copynchars(sum_str + strlen(current_line), str, n);
-	sum_str[strlen(current_line) + n] = '\0';
-	free(current_line);
-	return (sum_str);
+	if (*line)
+		*line[i] = '\0';
+	return (surplus);
 }
 
-void	copynchars(char *dest, char *src, size_t n)
+char	*extract_surplus(t_list *current, t_values *tracker)
 {
-		while (n--)
-			*(dest++) = *(src++);
-}
+	char	*surplus;
+	int		i;
+	int		j;
 
-size_t	strlen(char *str)
-{
-	size_t	i;
-
+	if (tracker->nl_pos < 0)
+		return (NULL);
+	surplus = (char *)malloc(sizeof(char) * (strln(current->str)
+				- tracker->nl_pos));
+	if (!surplus)
+	{
+		tracker->fail++;
+		return (NULL);
+	}
 	i = 0;
-	if (!str)
-		return (i);
-	while (str[i])
-		i++;
-	return (i);
+	j = tracker->nl_pos + 1;
+	while (current->str[j])
+		surplus[i++] = current->str[j++];
+	surplus[i] = '\0';
+	current->str[tracker->nl_pos + 1] = '\0';
+	return (surplus);
 }
 
-int
-
-size_t	findNL(char *buffer, size_t n)
+int	read_into_stash(int fd, t_list **current, t_values *tracker)
 {
-	
+	t_list	*new;
+
+	new = (t_list *)malloc(sizeof(t_list));
+	if (!new)
+		return (1);
+	new->next = NULL;
+	if (*current)
+		(*current)->next = new;
+	*current = new;
+	new->str = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!new->str)
+		return (1);
+	tracker->red = read(fd, new->str, BUFFER_SIZE);
+	new->str[tracker->red] = '\0';
+	return (0);
 }
