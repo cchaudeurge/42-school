@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 21:17:06 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/08/18 22:25:18 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/08/19 14:22:39 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 /*Buffer*/
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 10
 # endif
 
 /*Linked lists*/
@@ -46,12 +46,12 @@ typedef struct s_values
 
 /*TESTING
  * REMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOVE*/
-/*int		main(void);*/
+int		main(void);
 /*get_next_line.c*/
 char	*get_next_line(int fd);
 int		read_into_stash(int fd, t_list **current, t_values *tracker);
-char	*extract_surplus(t_list *current, t_values *tracker);
-char	*extract(char **line, t_list *stash, t_list *current,
+t_list	*extract_surplus(char *str, t_values *tracker);
+t_list	*extract(char **line, t_list *stash, t_list *current,
 			t_values *tracker);
 char	*free_all(t_list	**stashptr, t_list **currentptr, char **line,
 			t_values **trackerptr);
@@ -63,4 +63,5 @@ void	free_lst(t_list *stash);
 int		has_nl(t_list *current, t_values *tracker);
 int		initialize(t_list *stash, t_list **current, char **line,
 			t_values **tracker);
+int linelen(t_list *stash);
 #endif
