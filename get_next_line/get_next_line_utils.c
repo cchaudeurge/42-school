@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:52:07 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/08/19 18:51:39 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/08/20 20:52:20 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,18 @@ size_t	linelen(t_list *stash)
 		stash = stash->next;
 	}
 	return (length);
+}
+
+void	free_lst(t_list **stash)
+{
+	t_list	*next;
+
+	while (stash)
+	{
+		free(*stash->str);
+		next = *stash->next;
+		free(*stash);
+		*stash = next;
+	}
+	*stash = NULL XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Check this
 }
