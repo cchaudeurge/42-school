@@ -93,5 +93,5 @@ void	free_lst(t_list **stash)
 		free(*stash);
 		*stash = next;
 	}
-	*stash = NULL XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Check this
+	*stash = NULL;
 }

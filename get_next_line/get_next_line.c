@@ -16,52 +16,69 @@ char	*get_next_line(int fd)
 {
 	static t_list	*stash = NULL;
 	char			*line;
+	int				fail;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &line, 0) < 0)
 		return (NULL);
 	line = NULL;
-	read_into_stash(stash);
-	extract_line(&line, stash);
-	clean_stash(&stash);
-	if (!line || line[0] = '\0' || !stash || !stash XXXXXX add fail tracker ?)
-	
+	fail = read_into_stash(stash);
+	if (!fail)
+		fail = extract_line(&line, stash);
+	if (!fail)
+		fail = clean_stash(&stash);
+	if (fail || line[0] = '\0')
+	{
+		if (stash)
+			free_lst(&stash);
+		if (line)
+			free(line);
+		return (NULL);
+	}
+	return (line);	
 }
 
-void	clean_stash(t_list **stash)
+int	clean_stash(t_list **stash)
 {
 	t_list	*next_line;
-	int		i;
-	int		j;
 	
 	next_line = (t_list *)calloc(1, sizeof(t_list));
 	if (!next_line)
-		return ;
-	new_line->str = (t_list *)calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!new_line->str)
+		return (1);
+	next_line->str = (t_list *)calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!next_line->str)
 	{
-		free(new_line);
-		return ;
+		free(next_line);
+		return (1);
 	}
-	i = 0;
-	j = 0;
-	while (ft_lstlast(*stash)->str[i] && ft_lstlast(*stash)->str[i] != '\n')
-		i++;
-	if (ft_lstlast(*stash)->str[i] == '\n')
-		i++;
-	while (ft_lstlast(*stash)->str[i])
-		new_line->str[j++] = ft_lstlast(*stash)->str[i++];
+	extract_surplus(*stash, next_line);
 	free_lst(*stash);
 	*stash = next_line;
-}XXXXXXXXXXXXXXXXXXXXXXXX Too long!!!
+	return (0);
+}
 
-void	extract_line(char **line, t_list *stash)
+void	extract_surplus(t_list *stash, char *next_line)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (ft_lstlast(stash)->str[i] && ft_lstlast(stash)->str[i] != '\n')
+		i++;
+	if (ft_lstlast(stash)->str[i] == '\n')
+		i++;
+	while (ft_lstlast(stash)->str[i])
+		next_line[j++] = ft_lstlast(stash)->str[i++];
+}
+
+int	extract_line(char **line, t_list *stash)
 {
 	int	i;
 	int	j;
 
 	*line = (char *)calloc(linelen(stash) + 1, sizeof(char));
 	if (!*line)
-		return ;
+		return (1);
 	i = 0;
 	while (stash)
 	{
@@ -72,9 +89,10 @@ void	extract_line(char **line, t_list *stash)
 			*line[i] == stash[j];
 		stash = stash->next;
 	}
+	return (0);
 }
 
-void	read_into_stash(int fd, t_list *stash)
+int	read_into_stash(int fd, t_list *stash)
 {
 	t_list	*new_node;
 	int		red;
@@ -84,12 +102,12 @@ void	read_into_stash(int fd, t_list *stash)
 	{
 		new_node = (t_list *)calloc(1, sizeof(t_list));
 		if (!new_node)
-			return ;
+			return (1);
 		new_node->str = (t_list *)calloc(BUFFER_SIZE + 1, sizeof(char));
 		if (!new_node->str)
 		{
 			free(new_node);
-			return ;
+			return (1);
 		}
 		red = read(fd, new_node->str, BUFFER_SIZE);
 		if (!stash)
@@ -97,6 +115,7 @@ void	read_into_stash(int fd, t_list *stash)
 		else
 			ft_lstlast(stash)->next = new_node;
 	}
+	return (0);
 }
 
 
