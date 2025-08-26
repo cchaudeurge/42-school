@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 21:17:06 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/08/19 14:22:39 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/08/26 18:49:19 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 /*for read*/
 # include <unistd.h>
 /*TESTING
- * REMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOVE*/
+ REMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOVE*/
 # include <stdio.h>
 # include <fcntl.h>  
 
 /*Buffer*/
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 1 
 # endif
 
 /*Linked lists*/
@@ -36,32 +36,20 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-/*Tracker values*/	
-typedef struct s_values
-{
-	int	red;
-	int	nl_pos;
-	int	fail;
-}		t_values;
-
 /*TESTING
- * REMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOVE*/
+  REMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOVE*/
 int		main(void);
 /*get_next_line.c*/
 char	*get_next_line(int fd);
-int		read_into_stash(int fd, t_list **current, t_values *tracker);
-t_list	*extract_surplus(char *str, t_values *tracker);
-t_list	*extract(char **line, t_list *stash, t_list *current,
-			t_values *tracker);
-char	*free_all(t_list	**stashptr, t_list **currentptr, char **line,
-			t_values **trackerptr);
+int		read_into_stash(int fd, t_list *stash);
+int		extract_line(char **line, t_list *stash);
+void	extract_surplus(t_list *stash, char *next_line);
+int		clean_stash(t_list	**stash);
 
 /*get_next_line_utils.c*/
-int		strln(char *str);
-int		lstsi(t_list *stash);
-void	free_lst(t_list *stash);
-int		has_nl(t_list *current, t_values *tracker);
-int		initialize(t_list *stash, t_list **current, char **line,
-			t_values **tracker);
-int linelen(t_list *stash);
+void	*ft_calloc(size_t nbr, size_t size);
+t_list	*ft_lstlast(t_list *lst);
+int		found_nl(t_list *stash);
+size_t	linelen(t_list *stash);
+void	free_lst(t_list **stash);
 #endif
