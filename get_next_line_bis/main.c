@@ -6,47 +6,30 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 00:23:09 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/08/30 01:23:51 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/08/29 20:55:23 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <fcntl.h> 
 
 char	*get_next_line(int fd);
 
 int	main(void)
 {
 	char	*line;
-	int		fd1;
-	int		fd2;
-	int		fd3;
-	int		i;
+	int		fd;
 
-	i = 10;
-	fd1 = open("/home/cchaudeu/42_core/1_personal_github_repo/get_next_line/test.txt", O_RDONLY);
-	fd2 = open("/home/cchaudeu/42_core/1_personal_github_repo/get_next_line/test1", O_RDONLY);
-	fd3 = open("/home/cchaudeu/42_core/1_personal_github_repo/get_next_line/test2", O_RDONLY);
-	while (i--)
+	fd = open("/home/cchaudeu/42_core/1_personal_github_repo/get_next_line/test", O_RDONLY);
+	while (1)
 	{
-		line = get_next_line(fd1);
+		line = get_next_line(fd);
 		if (line == NULL)
+		{		
 			printf("(null)");
-		printf("%s\n", line);
-		free(line);
-		line = get_next_line(fd2);
-		if (line == NULL)
-			printf("(null)");
-		printf("%s\n", line);
-		free(line);
-		line = get_next_line(fd3);
-		if (line == NULL)
-			printf("(null)");
-		printf("%s\n", line);
+			break;
+		}
+		printf("%s", line);
 		free(line);
 	}
-	close(fd1);
-	close(fd2);
-	close(fd3);
 	return (0);
 }

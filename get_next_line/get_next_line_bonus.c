@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:46:18 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/08/30 01:25:13 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/08/30 01:24:39 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 char	*get_next_line(int fd)
 {
-	static t_list	*stash = NULL;
+	static t_list	*stash[1024];
 	char			*line;
 	int				fail;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	line = NULL;
-	fail = read_into_stash(fd, &stash);
-	fail += extract_line(&line, stash);
-	fail += clean_stash(&stash);
+	fail = read_into_stash(fd, &stash[fd]);
+	fail += extract_line(&line, stash[fd]);
+	fail += clean_stash(&stash[fd]);
 	if (fail || line[0] == '\0')
 	{
-		if (stash)
-			free_lst(&stash);
+		if (stash[fd])
+			free_lst(&stash[fd]);
 		if (line)
 			free(line);
 		return (NULL);
