@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:52:07 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/08/20 20:52:20 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/08/29 19:59:46 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,21 @@
 
 void	*ft_calloc(size_t nbr, size_t size)
 {
-	void	*ptr;
+	void			*ptr;
+	unsigned char	*pointer;
 	size_t	i;
 	
 	if (nbr == 0 || size == 0)
 		return (malloc(0));
-	if (nbr > INT_MAX / size)
+	if (nbr > SIZE_MAX / size)
 		return (NULL);
 	ptr = malloc(nbr * size);
 	if (ptr == NULL)
 		return (NULL);
+	pointer = (unsigned char *)ptr;
 	i = nbr * size;
 	while (i--)
-		ptr[i - 1] = 0;
+		pointer[i] = 0;
 	return (ptr);
 }
 
@@ -88,8 +90,8 @@ void	free_lst(t_list **stash)
 
 	while (stash)
 	{
-		free(*stash->str);
-		next = *stash->next;
+		free((*stash)->str);
+		next = (*stash)->next;
 		free(*stash);
 		*stash = next;
 	}

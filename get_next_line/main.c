@@ -6,11 +6,13 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 00:23:09 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/08/19 00:24:21 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/08/26 19:45:42 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*get_next_line(int fd);
 
 int	main(void)
 {

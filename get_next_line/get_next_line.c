@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:46:18 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/08/20 20:52:12 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/08/26 20:13:53 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &line, 0) < 0)
 		return (NULL);
 	line = NULL;
-	fail = read_into_stash(stash);
+	fail = read_into_stash(fd, &stash);
 	if (!fail)
 		fail = extract_line(&line, stash);
 	if (!fail)
 		fail = clean_stash(&stash);
-	if (fail || line[0] = '\0')
+	if (fail || line[0] == '\0')
 	{
 		if (stash)
 			free_lst(&stash);
@@ -44,19 +44,19 @@ int	clean_stash(t_list **stash)
 	next_line = (t_list *)calloc(1, sizeof(t_list));
 	if (!next_line)
 		return (1);
-	next_line->str = (t_list *)calloc(BUFFER_SIZE + 1, sizeof(char));
+	next_line->str = (char *)calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!next_line->str)
 	{
 		free(next_line);
 		return (1);
 	}
-	extract_surplus(*stash, next_line);
-	free_lst(*stash);
+	extract_surplus(*stash, next_line->str);
+	free_lst(stash);
 	*stash = next_line;
 	return (0);
 }
 
-void	extract_surplus(t_list *stash, char *next_line)
+void	extract_surplus(t_list *stash, char *next_line_str)
 {
 	int	i;
 	int	j;
@@ -68,7 +68,7 @@ void	extract_surplus(t_list *stash, char *next_line)
 	if (ft_lstlast(stash)->str[i] == '\n')
 		i++;
 	while (ft_lstlast(stash)->str[i])
-		next_line[j++] = ft_lstlast(stash)->str[i++];
+		next_line_str[j++] = ft_lstlast(stash)->str[i++];
 }
 
 int	extract_line(char **line, t_list *stash)
@@ -86,34 +86,34 @@ int	extract_line(char **line, t_list *stash)
 		while (stash->str[j] && stash->str[j] != '\n')
 			*line[i++] = stash->str[j++];
 		if (stash->str[j] == '\n')
-			*line[i] == stash[j];
+			*line[i] = stash->str[j];
 		stash = stash->next;
 	}
 	return (0);
 }
 
-int	read_into_stash(int fd, t_list *stash)
+int	read_into_stash(int fd, t_list **stash)
 {
 	t_list	*new_node;
 	int		red;
 
 	red = 1;
-	while (!found_nl(stash) && red != 0)
+	while (!found_nl(*stash) && red != 0)
 	{
 		new_node = (t_list *)calloc(1, sizeof(t_list));
 		if (!new_node)
 			return (1);
-		new_node->str = (t_list *)calloc(BUFFER_SIZE + 1, sizeof(char));
+		new_node->str = (char *)calloc(BUFFER_SIZE + 1, sizeof(char));
 		if (!new_node->str)
 		{
 			free(new_node);
 			return (1);
 		}
 		red = read(fd, new_node->str, BUFFER_SIZE);
-		if (!stash)
-			stash = new_node;
+		if (!*stash)
+			*stash = new_node;
 		else
-			ft_lstlast(stash)->next = new_node;
+			ft_lstlast(*stash)->next = new_node;
 	}
 	return (0);
 }

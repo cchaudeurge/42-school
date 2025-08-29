@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 21:17:06 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/08/26 18:49:19 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/08/26 19:43:46 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@
 # include <stdlib.h>
 /*for read*/
 # include <unistd.h>
-/*TESTING
- REMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOVE*/
+/*For size_t*/
 # include <stdio.h>
+/*For SIZE_MAX*/
+# include <stdint.h>
+/*testing REMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOVE*/
 # include <fcntl.h>  
 
 /*Buffer*/
@@ -41,9 +43,9 @@ typedef struct s_list
 int		main(void);
 /*get_next_line.c*/
 char	*get_next_line(int fd);
-int		read_into_stash(int fd, t_list *stash);
+int		read_into_stash(int fd, t_list **stash);
 int		extract_line(char **line, t_list *stash);
-void	extract_surplus(t_list *stash, char *next_line);
+void	extract_surplus(t_list *stash, char *next_line_str);
 int		clean_stash(t_list	**stash);
 
 /*get_next_line_utils.c*/
