@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:46:18 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/08/30 01:25:13 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/09/14 15:02:34 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	clean_stash(t_list **stash)
 {
 	t_list	*next_line;
 
-	next_line = (t_list *)calloc(1, sizeof(t_list));
+	next_line = (t_list *)ft_calloc(1, sizeof(t_list));
 	if (!next_line)
 		return (1);
-	next_line->str = (char *)calloc(BUFFER_SIZE + 1, sizeof(char));
+	next_line->str = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!next_line->str)
 	{
 		free(next_line);
@@ -74,7 +74,7 @@ int	extract_line(char **line, t_list *stash)
 	int	i;
 	int	j;
 
-	*line = (char *)calloc(linelen(stash) + 1, sizeof(char));
+	*line = (char *)ft_calloc(linelen(stash) + 1, sizeof(char));
 	if (!*line)
 		return (1);
 	i = 0;
@@ -98,10 +98,10 @@ int	read_into_stash(int fd, t_list **stash)
 	red = 1;
 	while (!found_nl(*stash) && red > 0)
 	{
-		new_node = (t_list *)calloc(1, sizeof(t_list));
+		new_node = (t_list *)ft_calloc(1, sizeof(t_list));
 		if (!new_node)
 			return (1);
-		new_node->str = (char *)calloc(BUFFER_SIZE + 1, sizeof(char));
+		new_node->str = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 		if (!new_node->str)
 		{
 			free(new_node);
