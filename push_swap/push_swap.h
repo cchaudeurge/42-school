@@ -1,15 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/19 13:52:07 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/08/19 13:53:43 by cchaudeu         ###   ########.fr       */
+/*   Created: 2025/10/10 21:15:35 by cchaudeu          #+#    #+#             */
+/*   Updated: 2025/10/11 02:23:21 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+/*Double-linked list*/
+typedef struct s_stack
+{
+	int				nbr;
+	int				indx;
+	struct s_stack	*prev;
+	struct s_stack	*next;
+}					t_stack;
 
-void	*ft_calloc(size_t nbr, )

@@ -1,0 +1,110 @@
+- Use Debian 13.1 (rel 06/09)
+	- Stability and reliability
+	- beginner-friendly (subject)
+	- Well documented
+	- Package management > APT
+- Virtual Machine (VM)
+	- A virtual machine is basically a computer inside your computer.
+	It’s created using software (like VirtualBox, VMware, or QEMU) that pretends
+	to be real hardware.
+		- Host machine = your real physical computer (laptop/PC).
+		- Guest machine = the virtual computer that runs inside your host.
+	The VM acts like a normal computer:
+		- It has a virtual hard disk (stored as a file on your host machine).
+		- It has virtual CPU, RAM, and network card,
+		all simulated by the virtualization software.
+		-You can install an operating system (Linux, Windows, etc.) on it
+		just like on a real machine.
+	- Why use a VM?
+		1. Isolation – If you mess up your VM, your host computer stays safe.
+		2. Experimenting – You can test operating systems or configurations
+		without affecting your real machine.
+		3. Reproducibility – Everyone in your course can have the same setup,
+		which makes exercises and evaluations fair.
+		4. Convenience – You don’t need multiple physical computers.
+- Two encrypted partitions using LVM (Logical Volume Manager)
+	- Normally, partitions are fixed in size — if you make a 100 GB partition,
+		it stays 100 GB unless you reformat.
+	- LVM adds a layer of flexibility on top of partitions:
+		- You can resize them more easily.
+		- You can combine multiple physical disks into one big logical storage pool.
+		- You can create logical volumes (like flexible partitions) inside that pool.
+	- Structure:
+		- Physical Volumes (PV): Physical hard drives or partitions
+		- Volume Groups (VG): Collections of physical volumes
+		- Logical Volumes (LV): Virtual partitions that can span multiple physical volumes
+- apt vs aptitude
+	- Both are package managers for Debian/Ubuntu systems. They install, update, and remove
+	software, but they differ in how they work:
+		- apt
+			- Command-line tool (successor to apt-get and apt-cache).
+			- Simpler syntax, commonly used today.
+		- aptitude
+			- Older tool, can be used in command-line or interactive (text UI) mode.
+			- More powerful dependency resolution:
+				-If two packages conflict, aptitude often suggests multiple solutions,
+				whereas apt usually just says “cannot resolve dependencies.”
+				-Less commonly installed by default nowadays.
+	- Terminology:
+		- Package manager = the system that handles installing, updating, and removing
+		software.
+		- Dependencies = other software that your program needs in order to work.
+	- Summary:
+		- Use apt for everyday package management.
+		- Use aptitude if you need more advanced dependency handling.
+- AppArmor is a Linux security module that provides Mandatory Access Control (MAC) security. Key features:
+	- Application confinement: Restricts programs' capabilities and access to system resources
+	- Profile-based: Uses security profiles to define what resources applications can access
+	- Path-based: Controls access based on file paths
+	- Default deny: Applications can only access explicitly allowed resources
+	- Complements traditional permissions: Works alongside standard Linux file permissions
+- UFW (uncomplicated firewall): It’s a frontend for iptables/nftables that makes it easier to manage a firewall on Linux systems.
+	- Key points:
+		- Default on Ubuntu (and available on Debian, Mint, etc.).
+		- Designed to be simple: you allow or deny services/ports instead of writing raw rules.
+		- Works with both IPv4 and IPv6.
+	- Advantages: 
+		-Easy to configure compared to raw iptables rules.
+		- Good for small servers, desktops, or anyone who needs a straightforward firewall.
+		- Plays nicely with systemd and survives reboots.
+- SSH (Secure Shell) works by creating an encrypted connection between a client and a server, allowing secure login and command execution over the network. It uses public-key or password authentication and encrypts all traffic.
+- Cron is a time-based job scheduler in Unix/Linux that automatically runs commands or scripts at specified times or intervals.
+- Signature
+	- sha1sum ~/sgoinfre/Born2beRoot/Born2beRoot.vdi > signaturebis.txt
+	- diff file1 file2
+- Graphical interface: ls /usr/bin/*session
+- Check OS: uname --kernel-version
+- Password policy
+	- min and max days + warning: vim /etc/login.defs
+	- rest: vim /etc/pam.d/common-password (from cchaudeu > cd)
+- Create a new user: sudo adduser <username>
+- Create new group: sudo addgroup <groupname> (to check: getent group <groupname>)
+- Add user to group: sudo adduser <user> <group> (to check: getent group <group>)
+- Hostname
+	- get: sudo hostnamectl
+	- change: sudo hostnamectl set-hostname <newhostname>
+		sudo reboot
+- Partitions: lsblk
+- Sudo
+	- installed: sudo -V (from cchaudeu)
+	- sudo policies: vim /etc/sudoers.d/sudo_config
+	- cd /var/log/sudo > ls > cat sudo_config
+- UFW
+	- active: sudo ufw status + sudo service ufw status
+	- add new rule: sudo ufw allow <port>
+	- disable port: sudo ufw delete allow <port>
+- SSH
+	- active: sudo service ssh status
+	- sudo properly installed: which sudo
+	- working properly: sudo systemctl status ssh
+	- On Host Terminal type: ssh -p 4242 [USERNAME]@[IP ADDRESS]
+		type exit to leave
+		try without port to show that it doesn’t work
+
+		try with 
+		ssh -p 4242 [ROOT]@[IP ADDRESS]
+		to show that it doesn’t work
+- Script
+	- in /home/cchaudeu/monitoring.sh
+	- crontab: sudo crontab -u root -e
+		sudo
