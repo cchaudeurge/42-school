@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 19:38:15 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/10/11 04:26:34 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:19:36 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,41 @@ int	parse(t_stack **a, char *argv[])
 {
 	t_stack	*new_node;
 	int		number;
-	char	*nbstr;
+	int		i;
 
-	while (*argv)
+	i = 0;
+	while (argv[i])
 	{
-		number = atoltoi(*argv);
+		number = atol_check_toi(argv[index], a);
 		if (isduplicate(*a, number))
 			clean_exit(*a, NULL, EXIT_FAILURE);
-		new_node = 
-
-		XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+		new_node = (t_stack *)malloc(sizeof(t_stack));
+		if (!new_node)
+			clean_exit(*a, NULL, EXIT_FAILURE);
+		new_node->nbr = number;
+		new_node->index = i;
+		new_node->sorted = -1;
+		new_node->next = NULL;
+		stackadd_back(a, new_node); 
+		i++;
 	}
 }
 
+void	stackadd_back(t_stack **stack, t_stack *new)
+{
+	if (!stack || !new)
+		return ;
+	if (*stack)
+	{
+		getlast(*stack)->next = new;
+		new->prev = getlast(*stack);
+	}
+	else
+	{
+		*stack = new;
+		new->prev = NULL;
+	}
+}
 int	atol_check_toi(char *str, t_stack **a)
 {
 	long	nbr;
@@ -79,37 +101,40 @@ int	atol_check_toi(char *str, t_stack **a)
 	return ((int)(sign * nbr));
 }
 
-t_stack	*stacknew(int number)
+/*void	*stacknew(int number, int i, t_stack **a)
 {
 	t_stack	*new_node;
+	t_stack	*last;
 
 	new_node = (t_stack *)malloc(sizeof(t_stack));
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	if (!new_node)
+		clean_exit(*a, NULL, EXIT_FAILURE);
 	new_node->nbr = number;
-	new_node->indx = -1;
+	new_node->index = i;
+	new_node->sorted = -1;
 	new_node->prev = NULL;
 	new_node->next = NULL;
 	return (new_node);
-}
+}*/
 
 void	clean_exit(t_stack *a, t_stack *b, int status)
 {
-	free_stack(a);
-	free_stack(b);
+	free_stack(&a);
+	free_stack(&b);
 	if (status == EXIT_FAILURE)
 		ft_printf("Error\n");
 	exit(status);
 }
 
-void	free_stack(t_stack *stack)
+void	free_stack(t_stack **stack)
 {
 	t_stack	*next_node;
 
-	while (stack)
+	while (*stack)
 	{
-		next_node = stack->next;
-		free(stack);
-		stack = next_node;
+		next_node = (*stack)->next;
+		free(*stack);
+		*stack = next_node;
 	}
 }
 		
@@ -122,6 +147,18 @@ int isduplicate(t_stack	*a, int number)
 		a = a->next;
 	}
 	return (0);
+}
+
+t_stack	*getlast(t_stack *stack)
+{
+	t_stack	*last_node;
+
+	if (!stack)
+		return (NULL);
+	last_node = stack;
+	while (last_node->next)
+		last_node = last_node->next;
+	return (last_node);
 }
 
 /*int	is_short_number(char *str)
