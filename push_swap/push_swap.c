@@ -47,13 +47,12 @@ int	parse(t_stack **a, char *argv[])
 		number = atol_check_toi(argv[index], a);
 		if (isduplicate(*a, number))
 			clean_exit(*a, NULL, EXIT_FAILURE);
-		new_node = (t_stack *)malloc(sizeof(t_stack));
+		new_node = (t_stack *)ft_calloc(sizeof(t_stack));
 		if (!new_node)
 			clean_exit(*a, NULL, EXIT_FAILURE);
 		new_node->nbr = number;
 		new_node->index = i;
 		new_node->sorted = -1;
-		new_node->next = NULL;
 		stackadd_back(a, new_node); 
 		i++;
 	}
@@ -61,8 +60,17 @@ int	parse(t_stack **a, char *argv[])
 
 void	stackadd_back(t_stack **stack, t_stack *new)
 {
+	t_stack	previous_node;
+	t_stack	next_node;
+
 	if (!stack || !new)
 		return ;
+	previous_node = new->prev;
+	next_node = new->next;
+	if (previous_node)
+		previous_node->next = new->next;
+	if (next_node)
+		next_node->prev = new->prev
 	if (*stack)
 	{
 		getlast(*stack)->next = new;
@@ -73,7 +81,29 @@ void	stackadd_back(t_stack **stack, t_stack *new)
 		*stack = new;
 		new->prev = NULL;
 	}
+	new->next = NULL;
 }
+
+void	stackadd_front(t_stack **stack, t_stack *new)
+{
+	t_stack	previous_node;
+	t_stack	next_node;
+
+	if (!stack || !new)
+		return ;
+	previous_node = new->prev;
+	next_node = new->next;
+	if (previous_node)
+		previous_node->next = new->next;
+	if (next_node)
+		next_node->prev = new->prev
+	if (*stack)
+		*stack->prev = new;
+	new->next = *stack;
+	new->prev = NULL;
+	*stack = new;
+}
+
 int	atol_check_toi(char *str, t_stack **a)
 {
 	long	nbr;

@@ -20,3 +20,9 @@ typedef struct s_stack
 	struct s_stack	*next;
 }					t_stack;
 
+/*Stack group*/
+typedef struct s_sgroup
+{
+	t_stack	*a;
+	t_stack	*b;
+}			t_sgroup
