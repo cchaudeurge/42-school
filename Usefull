@@ -27,3 +27,19 @@ Terminal settings file - In terminal
 	  		alias paco='/home/cchaudeu/francinette/tester.sh' 
   		//
 	. ~/.zshrc (to implement changes after each edit)
+	
+VS Code settings 
+	- (Ctrl + Shift + P > Preferences: Open User Settings)
+		{
+		    "editor.insertSpaces": true,
+		    "editor.tabSize": 4,
+		    "editor.detectIndentation": false,
+		    "files.trimTrailingWhitespace": true,
+		    "editor.rulers": [80],
+		    "editor.wordWrap": "off",          // never wrap long lines
+		    "editor.renderWhitespace": "trailing", // see stray spaces
+		    "editor.renderIndentGuides": true, // show indentation guides
+		}
+	- Extensions
+		
+
