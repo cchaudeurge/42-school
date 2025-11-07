@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 23:50:58 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/10/21 21:38:06 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2025/10/28 10:44:34 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,24 @@ int count_map_lines(int fd)
         line = get_next_line(fd);
     }
     return (line_count);
+}
+void    remove_nl(char **map)
+{
+    int i;
+}
+
+int isrectangle(char **map)
+{
+    int i;
+
+    if (!map)
+        return (0);
+    i = 0;
+    while (map[i] && map[i+1])
+    {
+        if (ft_strlen(map[i] != ft_strlen(map[i+1])))
+            return (0);
+        i++;
+    }
+    return  (1);
 }
