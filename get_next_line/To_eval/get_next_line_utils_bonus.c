@@ -88,12 +88,11 @@ void	free_lst(t_list **stash)
 {
 	t_list	*next;
 
-	while (*stash)
+	while (stash && *stash)
 	{
 		free((*stash)->str);
 		next = (*stash)->next;
 		free(*stash);
 		*stash = next;
 	}
-	*stash = NULL;
 }

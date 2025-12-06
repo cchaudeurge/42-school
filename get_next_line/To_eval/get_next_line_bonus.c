@@ -19,7 +19,7 @@ char	*get_next_line(int fd)
 	int				fail;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
+		return (free_lst(&stash[fd]), NULL);
 	line = NULL;
 	fail = read_into_stash(fd, &stash[fd]);
 	fail += extract_line(&line, stash[fd]);
@@ -39,6 +39,8 @@ int	clean_stash(t_list **stash)
 {
 	t_list	*next_line;
 
+	if (!stash || !*stash)
+		return (0);
 	next_line = (t_list *)ft_calloc(1, sizeof(t_list));
 	if (!next_line)
 		return (1);
@@ -112,6 +114,8 @@ int	read_into_stash(int fd, t_list **stash)
 			*stash = new_node;
 		else
 			ft_lstlast(*stash)->next = new_node;
+		if (red < 0)
+			return (1);
 	}
 	return (0);
 }
