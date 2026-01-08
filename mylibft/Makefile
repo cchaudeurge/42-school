@@ -21,7 +21,8 @@ SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	   ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c \
 	   ft_tolower.c ft_toupper.c ft_lstmap.c ft_lstadd_back.c \
 	   ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c ft_lstiter.c \
-	   ft_lstlast.c ft_lstnew.c ft_lstsize.c gnl_with_nl.c gnl_without_nl.c
+	   ft_lstlast.c ft_lstnew.c ft_lstsize.c gnl_with_nl.c gnl_without_nl.c \
+	   ft_charcount.c
 
 OBJS = $(SRCS:.c=.o)
 AR = ar rcs
