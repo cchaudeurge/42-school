@@ -12,31 +12,23 @@
 
 #include "so_long.h"
 
-t_map	*parse_init_check_map(char *map_path)
+void	*parse_init_check_map(t_game *game, char *map_path)
 {
 	int	fd;
 	char 	**map_array;
-	t_map	*map;
-	
+
 	check_extension(map_path);
 	fd = open(map_path);
 	if (fd < 0)
-		error_exit(system_error, "open", NULL);
-	map_array = create_map_array(fd);
+		clean_exit(game, EXIT_FAILURE, sys_err, "open");
+	map_array = create_map_array(fd, game);
 	close(fd);
-	map = (t_map *)ft_malloc(sizeof(t_map));
-	if (!map)
-	{
-		free_array(map_array);
-		error_exit(system_error, "malloc", NULL);
-	}
-	map->array = map_array;
-	map->width = ft_strlen(*map_array);
-	map->height = array_len(map_array);
-	map->collectibles = count_element(map_array, COLLECTIBLE);
-	locate_start(map);
-	check_map(map);
-	return (map);
+	game->map.array = map_array;
+	game->map.width = ft_strlen(*map_array);
+	game->map.height = array_len(map_array);
+	game->map.collectibles = count_element(map_array, COLLECTIBLE);
+	locate_start(game);
+	check_map(game);
 }
 
 void	check_extension(char *map_path)
@@ -47,10 +39,10 @@ void	check_extension(char *map_path)
 	if (length > 4 && ft_strncmp(map_path + length - 4, ".ber", 4) == 0)
 		return ;
 	else
-		error_exit(map_error, g_map_errmsg[extension]);
+		error_exit(map_err, g_map_errmsg[extension]);
 }
 
-t_list	*create_map_list(int fd)
+t_list	*create_map_list(int fd, t_game game)
 {
 	t_list	*line_lst;
 	char	*line;
@@ -66,7 +58,7 @@ t_list	*create_map_list(int fd)
 			free(line);
 			ft_lstclear(&line_lst);
 			close(fd);
-			error_exit(system_error, "malloc", NULL);
+			clean_exit(game, EXIT_FAILURE, sys_err, "malloc");
 		}
 		ft_lstadd_back(&line_lst, new_node);
 		line = gnl_without_nl(fd);
@@ -74,7 +66,7 @@ t_list	*create_map_list(int fd)
 	return (line_lst);
 }
 
-char	**create_map_array(int fd)
+char	**create_map_array(int fd, t_game *game)
 {
     char    **map;
     t_list	*line_lst;
@@ -87,7 +79,7 @@ char	**create_map_array(int fd)
 	{
 		ft_lstclear(&line_lst);
 		close(fd);
-		error_exit(system_error, "malloc", NULL);
+		clean_exit(game, EXIT_FAILURE, sys_err, "malloc");
 	}
     i = 0;
     while (line_lst)
@@ -112,20 +104,20 @@ size_t	array_len(char **map)
 	return (element_count);
 }
 
-void	locate_start(t_map *map)
+void	locate_start(t_game *game)
 {
-	size_t	i;
-	size_t	j;
+	int	i;
+	int	j;
 
 	i = 0;
-	while (map->array[i])
+	while (game->map.array[i])
 	{
-		if (!ft_strchr(map->array[i], START))
+		if (!ft_strchr(game->map.array[i], START))
 			i++;
 		else
 		{
-			map->start_y = i;
-			map->start_x = ft_strchr(map->array[i], START);
+			game->map.start.y = i;
+			game->map.start.x = (int)ft_strchr(game->map.array[i], START);
 			return ;
 		}
 	}

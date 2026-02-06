@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/21 17:24:05 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/10/21 21:38:18 by cchaudeu         ###   ########.fr       */
+/*   Created: 2025/06/06 19:08:22 by cchaudeu          #+#    #+#             */
+/*   Updated: 2025/12/11 00:09:08 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main(int argc, char **argv)
+#include "libft.h"
+
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	t_game	game;
+	unsigned int	i;
+	char			*str;
 
-	if (argc != 2)
-		clean_exit(&game, EXIT_FAILURE, custom_err, "You must provide exactly
-		1 .ber map to play the game.");
-	init_game(&game, argv[1]);
-	mlx_hook(game.render.win, 17, 0, exit_game, &game);
-	mlx_key_hook(game.render.win, key_handler, &game);
-	mlx_loop_hook(game.render.mlx, render_game, &game);
-
-
+	if (!s || !f)
+		return (NULL);
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (str[i])
+	{
+		str[i] = f(i, s[i]);
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}

@@ -1,33 +1,27 @@
 
-void	check_map(t_map *map)
+void	check_map(t_game *game)
 {
-	check_characters(map, "01CEP");
-	check_exit(map);
-	check_start(map);
-	if (!map->collectibles)
-	{
-		free_map(map);
-		error_exit(map_error, g_map_errmsg[collectibles]);
-	}
-	check_shape(map);
-	check_wall_enclosed(map);
-	check_path;
+	check_characters(game, "01CEP");
+	check_exit(game);
+	check_start(game);
+	if (!game->map.collectibles)
+		clean_exit(game, EXIT_FAILURE, map_err, g_map_errmsg[collectibles]);
+	check_shape(game);
+	check_wall_enclosed(game);
+	check_path(game);
 }
 
-void	check_shape(t_map *map)
+void	check_shape(t_game *game)
 {
     size_t	i;
 	size_t	length;
 
     i = 0;
-    while (i < map->height)
+    while (i < game->map.height)
     {
-        length = ft_strlen(map->array[i]);
-		if (length != map->width)
-		{
-			free_map(map);
-			error_exit(map_error, g_map_errmsg[shape]);
-		}
+        length = ft_strlen(game->map.array[i]);
+		if (length != game->map.width)
+			clean_exit(game, EXIT_FAILURE, map_err, g_map_errmsg[shape]);
         i++;
     }
 }
@@ -50,28 +44,22 @@ void	check_shape(t_map *map)
 	return (element_count);
 }*/
 
-void	check_exit(t_map *map)
+void	check_exit(t_game *game)
 {
 	size_t	exit_count;
 
-	exit_count = count_element(map->array, EXIT);
+	exit_count = count_element(game->map.array, EXIT);
 	if (exit_count != 1)
-	{
-		free_map(map);
-		error_exit(map_error, g_map_errmsg[exit]);
-	}
+		clean_exit(game, EXIT_FAILURE, map_err, g_map_errmsg[exit]);
 }
 
-void	check_start(t_map *map)
+void	check_start(t_game *game)
 {
 	size_t	start_count;
 
-	start_count = count_element(map->array, START);
+	start_count = count_element(game->map.array, START);
 	if (exit_count != 1)
-	{
-		free_map(map);
-		error_exit(map_error, g_map_errmsg[start]);
-	}
+		clean_exit(game, EXIT_FAILURE, map_err, g_map_errmsg[start]);
 }
 
 
@@ -90,50 +78,46 @@ size_t	count_element(char **map, char element)
 	return (element_count);
 }
 
-void	check_characters(t_map *map, char *valid_chars)
+void	check_characters(t_game *game, char *valid_chars)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (map->array[i])
+	while (game->map.array[i])
 	{
 		j = 0;
-		while (map->array[i][j])
+		while (game->map.array[i][j])
 		{
-			if (!ft_strchr(valid_chars, map->array[i][j]))
-			{
-				free_map(map);
-				error_exit(map_error, g_map_errmsg[characters]);
-			}
+			if (!ft_strchr(valid_chars, game->map.array[i][j]))
+				clean_exit(game, EXIT_FAILURE, map_err,
+				g_map_errmsg[characters]);
 			j++;
 		}
 		i++;
 	}
 }
 
-void	check_wall_enclosed(t_map *map)
+void	check_wall_enclosed(t_game *game)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < map->width)
+	while (i < game->map.width)
 	{
-		if (map->array[0][i] != WALL || map->array[map->height - 1][i] != WALL)
-		{
-			free_map(map);
-			error_exit(map_error, g_map_errmsg[wall_enclosed]);
-		}
+		if (game->map.array[0][i] != WALL || game->map.array[map->height - 1][i]
+			!= WALL)
+			clean_exit(game, EXIT_FAILURE, map_err,
+			g_map_errmsg[wall_enclosed]);
 		i++;
 	}
 	i = 1;
-	while (i < map->height - 2)
+	while (i < game->map.height - 2)
 	{
-		if (map->array[i][0] != WALL || map->array[i][map->width - 1] != WALL)
-		{
-			free_map(map);
-			error_exit(map_error, g_map_errmsg[wall_enclosed]);
-		}
+		if (game->map.array[i][0] != WALL || game->map.array[i][game->map.width
+			- 1] != WALL)
+			clean_exit(game, EXIT_FAILURE, map_err,
+			g_map_errmsg[wall_enclosed]);
 		i++;
 	}
 }
@@ -168,57 +152,48 @@ void	check_wall_enclosed(t_map *map)
 	return (1);
 }*/
 
-void	check_path(t_map *map)
+void	check_path(t_game *game)
 {
 	char	**fill_map;
 
-	fill_map = copy_map_array(map);
-	flood_fill(fill_map, map->start_y, map->start_x, map);
+	fill_map = copy_map_array(game);
+	flood_fill(fill_map, game->map.start.y, game->map.start.x, game);
 	if (count_element(fill_map, EXIT) || count_element(fill_map, COLLECTIBLE))
 	{
 		free_array(fill_map);
-		free_map(map);
-		error_exit(map_error, g_map_errmsg[valid_path]);
+		clean_exit(game, EXIT_FAILURE, map_err, g_map_errmsg[valid_path]);
 	}
-	else
-		free_array(fill_map);
+	free_array(fill_map);
 }
 
-void	flood_fill(char **array, size_t y, size_t x, t_map *map)
+void	flood_fill(char **array, int y, int x, t_game *game)
 {
-	if (y < 0 || y >= map->height || x < 0 || x >= map->width || map_array[y][x]
-		== WALL)
+	if (y < 0 || (size_t)y >= game->map.height || x < 0 || (size_t)x >=
+		game->map.width || array[y][x] == WALL || array[y][x] == VISITED)
 		return ;
-	else
-	{
-		array[y][x] = WALL;
-		flood_fill(array, y - 1, x, map);
-		flood_fill(array, y, x + 1, map);
-		flood_fill(array, y + 1, x, map);
-		flood_fill(array, y, x - 1, map);
-	}
+	array[y][x] = VISITED;
+	flood_fill(array, y - 1, x, game);
+	flood_fill(array, y, x + 1, game);
+	flood_fill(array, y + 1, x, game);
+	flood_fill(array, y, x - 1, game);
 }
 		
 
-char	**copy_map_array(t_map *map)
+char	**copy_map_array(t_game *game)
 {
 	char	**copy;
 	size_t	i;
 
-	copy = (char	**)calloc(sizeof(char *) * (map->height + 1));
+	copy = (char **)calloc(sizeof(char *) * (map->height + 1));
 	if (!copy)
+		clean_exit(game, EXIT_FAILURE, sys_err, "malloc");
+	while (i < game->map.height)
 	{
-		free_map(map);
-		error_exit(system_error, "malloc", NULL);
-	}
-	while (i < map->height)
-	{
-		copy[i] = ft_strdup((map->array)[i]);
-		if (copy[i])
+		copy[i] = ft_strdup((game->map.array)[i]);
+		if (!copy[i])
 		{
 			free_array(copy);
-			free_map(map);
-			error_exit(system_error, "malloc", NULL);
+			clean_exit(game, EXIT_FAIlURE, sys_err, "malloc");
 		}
 		i++;
 	}
