@@ -22,15 +22,15 @@ int	key_handler(int keycode, void *param)
 
 	game = (t_game *)param;
 	target = game->player.pos;
-	if (keycode == KEY_ESC)
+	if (keycode == XK_Escape)
 		clean_exit(game, EXIT_SUCCESS, 0, NULL);
-	else if (keycode == KEY_LEFT || keycode == KEY_A)
+	else if (keycode == XK_Left || keycode == XK_a)
 		target.x--;
-	else if (keycode == KEY_RIGHT || keycode == KEY_D)
+	else if (keycode == XK_Right || keycode == XK_d)
 		target.x++;
-	else if (keycode == KEY_UP || keycode == KEY_W)
+	else if (keycode == XK_Up || keycode == XK_w)
 		target.y--;
-	else if (keycode == KEY_DOWN || keycode == KEY_S)
+	else if (keycode == XK_Down || keycode == XK_s)
 		target.y++;
 	move_player(game, target);
 	return (0);
