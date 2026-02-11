@@ -17,8 +17,8 @@ void	*parse_init_check_map(t_game *game, char *map_path)
 	int	fd;
 	char 	**map_array;
 
-	check_extension(map_path);
-	fd = open(map_path);
+	check_extension(game, map_path);
+	fd = open(map_path, O_RDONLY);
 	if (fd < 0)
 		clean_exit(game, EXIT_FAILURE, sys_err, "open");
 	map_array = create_map_array(fd, game);
@@ -31,7 +31,7 @@ void	*parse_init_check_map(t_game *game, char *map_path)
 	check_map(game);
 }
 
-void	check_extension(char *map_path)
+void	check_extension(t_game *game, char *map_path)
 {
 	size_t	length;
 
@@ -39,10 +39,10 @@ void	check_extension(char *map_path)
 	if (length > 4 && ft_strncmp(map_path + length - 4, ".ber", 4) == 0)
 		return ;
 	else
-		error_exit(map_err, g_map_errmsg[extension]);
+		clean_exit(game, EXIT_FAILURE, map_err, "Map must be a .ber file.");
 }
 
-t_list	*create_map_list(int fd, t_game game)
+t_list	*create_map_list(int fd, t_game *game)
 {
 	t_list	*line_lst;
 	char	*line;
@@ -56,7 +56,7 @@ t_list	*create_map_list(int fd, t_game game)
 		if (!new_node)
 		{
 			free(line);
-			ft_lstclear(&line_lst);
+			ft_lstclear(&line_lst, free);
 			close(fd);
 			clean_exit(game, EXIT_FAILURE, sys_err, "malloc");
 		}
@@ -73,11 +73,11 @@ char	**create_map_array(int fd, t_game *game)
 	t_list	*current;
 	int		i;
 
-	line_lst = create_map_lst(fd);
-    map = (char **)ft_calloc(sizeof(char *) * (ft_lstsize(line_lst) + 1));
+	line_lst = create_map_list(fd, game);
+    map = (char **)ft_calloc((ft_lstsize(line_lst) + 1), sizeof(char *));
     if (!map)
 	{
-		ft_lstclear(&line_lst);
+		ft_lstclear(&line_lst, free);
 		close(fd);
 		clean_exit(game, EXIT_FAILURE, sys_err, "malloc");
 	}
@@ -107,7 +107,7 @@ size_t	array_len(char **map)
 void	locate_start(t_game *game)
 {
 	int	i;
-	int	j;
+	char	*start_ptr;
 
 	i = 0;
 	while (game->map.array[i])
@@ -117,7 +117,8 @@ void	locate_start(t_game *game)
 		else
 		{
 			game->map.start.y = i;
-			game->map.start.x = (int)ft_strchr(game->map.array[i], START);
+			start_ptr = ft_strchr(game->map.array[i], START);
+			game->map.start.x = start_ptr - game->map.array[i];
 			return ;
 		}
 	}

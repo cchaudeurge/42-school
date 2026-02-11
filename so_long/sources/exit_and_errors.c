@@ -1,14 +1,5 @@
-static const char	*g_map_errmsg[conditions_count] = {
-	[extension] = "Map must be a .ber file.",
-	[characters] = "Your map must only contain the following characters: 0, 1,
-	C, E, P.\n",
-	[exit] = "Your map must contain exactly one exit.",
-	[start] = "Your map must contain exactly one starting position.",
-	[collectibles] = "Your map must contain at least one collectible.",
-	[shape] = "Your map must be rectangular.",
-	[wall_enclosed] = "Your map must be wall enclosed.",
-	[valid_path] = "Your map must have a valid path."
-}
+#include "so_long.h"
+
 
 //NEED TO CLEAN!
 /*void error_exit(t_errtype errtype, const char *context)
@@ -40,7 +31,7 @@ static const char	*g_map_errmsg[conditions_count] = {
 	}
 }*/
 
-void puterror(t_errtype errtype, const char *context)
+void puterror(t_errtype errtype, char *context)
 {
 	ft_putendl_fd("Error", 2);
 	if (errtype == sys_err)
@@ -92,8 +83,8 @@ void	free_all_images(t_game *game)
 		free_img(game->render.mlx, game->render.player.left[i]);
 		free_img(game->render.mlx, game->render.player.right[i]);
 		free_img(game->render.mlx, game->render.environment.exit[i]);
-		free_img(game->render.mlx, game->render.collectible[i]);
-		free_img(game->render.mlx, game->render.enemy[i]);
+		free_img(game->render.mlx, game->render.collectible.frame[i]);
+		//free_img(game->render.mlx, game->render.enemy.frame[i]);
 		i++;
 	}
 	free_img(game->render.mlx, game->render.environment.wall[0]);
@@ -102,7 +93,7 @@ void	free_all_images(t_game *game)
 	free_img(game->render.mlx, game->render.environment.empty[1]);
 }
 
-void	clean_ exit(t_game *game, int exit_code, t_errtype errtype, const char *errcontext)
+void	clean_exit(t_game *game, int exit_code, t_errtype errtype, char *errcontext)
 {
 	if (game->map.array)
 		free_array(game->map.array);
@@ -110,7 +101,7 @@ void	clean_ exit(t_game *game, int exit_code, t_errtype errtype, const char *err
 	{
 		free_all_images(game);
 		if (game->render.win)
-			mlx_destroy_window(game->render.win);
+			mlx_destroy_window(game->render.mlx, game->render.win);
 		mlx_destroy_display(game->render.mlx);
 		free(game->render.mlx);
 	}

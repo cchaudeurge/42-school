@@ -32,9 +32,9 @@
 /*For key code constants*/
 # include <X11/keysym.h>
 /*MiniLibX*/
-# include <mlx.h>
+# include "../mlx/mlx.h"
 /*libft*/
-# include "./libft/libft.h"
+# include "../libft/libft.h"
 
 /*SPRITES*/
 /*PATHS*/
@@ -117,7 +117,7 @@ typedef struct	s_collect_img
 	t_img	frame[4];
 }				t_collect_img;
 
-typedef_struct	s_enemy_img
+typedef struct	s_enemy_img
 {
 	t_img	frame[4];
 }			t_enemy_img;
@@ -136,9 +136,20 @@ typedef struct	s_render
 typedef struct	s_player
 {
 	t_pos	pos;
-	size_t	2collect;
+	size_t	to_collect;
 	size_t	moves;
 }				t_player;
+
+/*typedef struct	s_map
+{
+	char			**array;
+	size_t	width;
+	size_t	height;
+	size_t	collectibles;
+	t_pos	start;
+	t_pos	exit;
+	int				map_conditions[conditions_count];
+}				t_map;*/
 
 typedef struct	s_map
 {
@@ -148,7 +159,6 @@ typedef struct	s_map
 	size_t	collectibles;
 	t_pos	start;
 	t_pos	exit;
-	int				map_conditions[conditions_count];
 }				t_map;
 
 typedef struct	s_game
@@ -180,32 +190,32 @@ typedef struct s_mapcond
 
 typedef enum 	e_errtype
 {
-	sys_err;
-	map_err;
-	custom_err;
+	sys_err,
+	map_err,
+	custom_err
 }				t_errtype;
 
 typedef enum	e_map_errors
 {
-	extension;
-	characters;
-	exit;
-	start;
-	collectibles;
-	shape;
-	wall_enclosed;
-	valid_path;
-	conditions_count;
+	extension,
+	characters,
+	map_exit,
+	start,
+	collectibles,
+	shape,
+	wall_enclosed,
+	valid_path,
+	conditions_count
 }				t_map_errors;
 
 static
 
-/*Linked listXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+/*Linked listXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-}               t_list;
+}               t_list;*/
 
 /*FUNCTIONS*/
 /*main.c*/
@@ -222,11 +232,11 @@ int	render_game(void *param);
 void	render_won(t_game *game);
 /*init_map.c*/
 void	*parse_init_check_map(t_game *game, char *map_path);
-void	check_extension(char *map_path);
-t_list	*create_map_list(int fd, t_game game);
+void	check_extension(t_game *game, char *map_path);
+t_list	*create_map_list(int fd, t_game *game);
 char	**create_map_array(int fd, t_game *game);
 size_t	array_len(char **map);
-size_t	array_len(char **map);
+void	locate_start(t_game *game);
 /*check_map1.c*/
 void	check_map(t_game *game);
 void	check_shape(t_game *game);
@@ -235,14 +245,15 @@ void	check_start(t_game *game);
 size_t	count_element(char **map, char element);
 void	check_characters(t_game *game, char *valid_chars);
 void	check_wall_enclosed(t_game *game);
+void	flood_fill(char **array, int y, int x, t_game *game);
 void	check_path(t_game *game);
 char	**copy_map_array(t_game *game);
 /*exit_and_errors.c*/
-void puterror(t_errtype errtype, const char *context);
+void 	puterror(t_errtype errtype, char *context);
 void	free_array(char **map);
 void	free_img(void *mlx, t_img image);
 void	free_all_images(t_game *game);
-void	clean_ exit(t_game *game, int exit_code, t_errtype errtype, const char
+void	clean_exit(t_game *game, int exit_code, t_errtype errtype, char
 *errcontext);
 /*init_render_and_player.c*/
 void	init_render(t_game *game);

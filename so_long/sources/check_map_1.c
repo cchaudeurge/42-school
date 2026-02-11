@@ -1,4 +1,17 @@
 
+#include "so_long.h"
+
+static const char	*g_map_errmsg[conditions_count] = {
+	[extension] = "Map must be a .ber file.",
+	[characters] = "Your map must only contain the following characters: 0, 1, C, E, P.\n",
+	[map_exit] = "Your map must contain exactly one exit.",
+	[start] = "Your map must contain exactly one starting position.",
+	[collectibles] = "Your map must contain at least one collectible.",
+	[shape] = "Your map must be rectangular.",
+	[wall_enclosed] = "Your map must be wall enclosed.",
+	[valid_path] = "Your map must have a valid path."
+};
+
 void	check_map(t_game *game)
 {
 	check_characters(game, "01CEP");
@@ -50,7 +63,7 @@ void	check_exit(t_game *game)
 
 	exit_count = count_element(game->map.array, EXIT);
 	if (exit_count != 1)
-		clean_exit(game, EXIT_FAILURE, map_err, g_map_errmsg[exit]);
+		clean_exit(game, EXIT_FAILURE, map_err, g_map_errmsg[map_exit]);
 }
 
 void	check_start(t_game *game)
@@ -58,7 +71,7 @@ void	check_start(t_game *game)
 	size_t	start_count;
 
 	start_count = count_element(game->map.array, START);
-	if (exit_count != 1)
+	if (start_count != 1)
 		clean_exit(game, EXIT_FAILURE, map_err, g_map_errmsg[start]);
 }
 
@@ -105,7 +118,7 @@ void	check_wall_enclosed(t_game *game)
 	i = 0;
 	while (i < game->map.width)
 	{
-		if (game->map.array[0][i] != WALL || game->map.array[map->height - 1][i]
+		if (game->map.array[0][i] != WALL || game->map.array[game->map.height - 1][i]
 			!= WALL)
 			clean_exit(game, EXIT_FAILURE, map_err,
 			g_map_errmsg[wall_enclosed]);
@@ -184,7 +197,7 @@ char	**copy_map_array(t_game *game)
 	char	**copy;
 	size_t	i;
 
-	copy = (char **)calloc(sizeof(char *) * (map->height + 1));
+	copy = (char **)ft_calloc(game->map.height + 1, sizeof(char *));
 	if (!copy)
 		clean_exit(game, EXIT_FAILURE, sys_err, "malloc");
 	while (i < game->map.height)
@@ -193,7 +206,7 @@ char	**copy_map_array(t_game *game)
 		if (!copy[i])
 		{
 			free_array(copy);
-			clean_exit(game, EXIT_FAIlURE, sys_err, "malloc");
+			clean_exit(game, EXIT_FAILURE, sys_err, "malloc");
 		}
 		i++;
 	}

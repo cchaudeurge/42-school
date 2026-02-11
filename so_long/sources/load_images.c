@@ -1,9 +1,11 @@
+#include "so_long.h"
+
 /*void	load_img(t_game *game, t_image image, char *filename)
 {	
 	image.img_ptr = mlx_xpm_file_to_image(game->render.mlx, filename,
 	&image.width, &image.height);
 	if (!image.img_ptr)
-		clean_exit(game, EXIT_FAILURE, system_error, "mlx_xpm_file_to_image");
+		clean_exit(game, EXIT_FAILURE, sys_err, "mlx_xpm_file_to_image");
 }
 
 void	load_player_imgs(t_game *game)
@@ -58,19 +60,19 @@ char	*build_path(t_game *game, char *base, int frame_num)
 
 	frame_str = ft_itoa(frame_num);
 	if (!frame_str)
-		clean_exit(game, EXIT_FAILURE, system_error, "malloc");
+		clean_exit(game, EXIT_FAILURE, sys_err, "malloc");
 	temp = ft_strjoin(base, frame_str);
 	if (!temp)
 	{
 		free(frame_str);
-		clean_exit(game, EXIT_FAILURE, system_error, "malloc");
+		clean_exit(game, EXIT_FAILURE, sys_err, "malloc");
 	}
 	path = ft_strjoin(temp, EXTENSION);
 	if (!path)
 	{
 		free(frame_str);
 		free(temp);
-		clean_exit(game, EXIT_FAILURE, system_error, "malloc");
+		clean_exit(game, EXIT_FAILURE, sys_err, "malloc");
 	}
 	free(frame_str);
 	free(temp);
@@ -104,7 +106,7 @@ void	load_all_images(t_game *game)
 	load_frames(game, game->render.player.down, PL_DOWN_BASE, PLAYER_FRAMES);
 	load_frames(game, game->render.player.left, PL_LEFT_BASE, PLAYER_FRAMES);
 	load_frames(game, game->render.player.right, PL_RIGHT_BASE, PLAYER_FRAMES);
-	load_frames(game, game->render.collectibles, COLLECT_BASE, COLLECT_FRAMES);
+	load_frames(game, game->render.collectible.frame, COLLECT_BASE, COLLECT_FRAMES);
 	load_frames(game, game->render.environment.exit, EXIT_BASE, EXIT_FRAMES);
 	load_frames(game, game->render.environment.wall, WALL_BASE, WALL_FRAMES);
 	load_frames(game, game->render.environment.empty, EMPTY_BASE, EMPTY_FRAMES);

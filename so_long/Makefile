@@ -16,8 +16,11 @@ GREEN			= \033[0;32m
 RED				= \033[0;31m
 RESET			= \033[0m
 
-LIBFT			= ./libft/libft.a
-
+LIBFT_DIR		= ./libft
+LIBFT			= $(LIBFT_DIR)/libft.a
+MLX_DIR			= ./minilibx-linux
+MLX				= $(MLX_DIR)/libmlx.a
+MLX_FLAGS		= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 CC				= cc
 
 FLAGS			= -Wall -Werror -Wextra
@@ -38,20 +41,25 @@ SRCS			= $(addprefix $(SRCS_DIR),	\
 				init_render_and_player.c	\
 				load_images.c)
 
+OBJS			= $(SRCS:.c=.o)
+
 all:			${LIBFT} ${NAME}
 
-${NAME}:		
-				${CC} ${SRCS} ${LIBFT} ${FLAGS} -o ${NAME}
+${NAME}:		${OBJS}
+				${CC} ${FLAGS} ${SRCS} ${LIBFT} -o ${NAME} ${MLX_FLAGS}
 				@echo "$(NAME): $(GREEN)$(NAME) was compiled.$(RESET)"
 				@echo
 
 clean:
-				make clean -C libraries/Libft
+				${REMOVE} ${OBJS}
+				make clean -C ./libft
 				@echo
 
 fclean:
-				${REMOVE} ${NAME} ${NAME_BONUS}
-				@echo "${NAME}: ${RED}${NAME} and ${NAME_BONUS} were deleted${RESET}"
+				clean
+				${REMOVE} ${NAME}
+				make fclean -C ./libft
+				@echo "${NAME}: ${RED}${NAME} was deleted${RESET}"
 				@echo
 
 re:				fclean all

@@ -1,3 +1,5 @@
+#include "libft.h"
+
 size_t	ft_charcount(char *s, char c)
 {
 	size_t	char_count;

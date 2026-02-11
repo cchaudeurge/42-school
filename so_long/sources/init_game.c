@@ -1,9 +1,12 @@
+
+#include "so_long.h"
+
 void	init_game(t_game *game,	char *map_path)
 {
 	parse_init_check_map(game, map_path);
 	game->state = 0;
-	game->player.x = game->map.start_x;
-	game->player.y = game->map.start_y;
+	game->player.pos.x = game->map.start.x;
+	game->player.pos.y = game->map.start.y;
 	game->player.moves = 0;
 	game->render.mlx = mlx_init();
 	if (!game->render.mlx)
@@ -71,8 +74,8 @@ void	render_moves(t_game *game)
 	char	*moves;
 
 	moves = ft_itoa(game->player.moves);
-	mlx_string_put(game->render.mlx, game->render.win, 10, 10, "Moves: ");
-	mlx_string_put(game->render.mlx, game->render.win, 70, 10, moves);
+	mlx_string_put(game->render.mlx, game->render.win, 10, 10, 0xFFFFFF, "Moves: ");
+	mlx_string_put(game->render.mlx, game->render.win, 70, 10, 0xFFFFFF, moves);
 	free(moves);
 }
 
@@ -88,8 +91,7 @@ void	render_background(t_game *game)
 		while (x <= game->map.width)
 		{
 			mlx_put_image_to_window(game->render.mlx, game->render.win,
-			game.render.environment.empty[(x + y) % 2], x * TILE_W , y *
-			TILE_H);
+			game->render.environment.empty[(x + y) % 2].img_ptr, x * TILE_W , y * TILE_H);
 			x++;
 		}
 		y++;
@@ -109,22 +111,22 @@ void	render_wall(t_game *game)
 		{
 			if (game->map.array[y][x] == WALL)
 				mlx_put_image_to_window(game->render.mlx, game->render.win,
-					game.render.environment.wall[(x + y) % 2], x * TILE_W , y *
-						TILE_H);
+					game->render.environment.wall[(x + y) % 2].img_ptr, x * TILE_W , y * TILE_H);
 			x++;
 		}
 		y++;
 	}
 }
 
+/*XXXXXXChange back to ft_printf!!!*/
 
-void	render_wall(t_game *game)
+int	render_game(void *param)
 {
 	t_game	*game;
 
 	game = (t_game *)param;
-	ft_printf("Moves: %d", game->player.moves);
-	if (game->status == WON)
+	printf("Moves: %d", (int)game->player.moves);
+	if (game->state == WON)
 		render_won(game);
 	render_background(game);
 	render_wall(game);
@@ -134,5 +136,4 @@ void	render_wall(t_game *game)
 void	render_won(t_game *game)
 {
 }
-
 
