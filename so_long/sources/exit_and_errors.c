@@ -95,12 +95,12 @@ void	free_all_images(t_game *game)
 
 void	clean_exit(t_game *game, int exit_code, t_errtype errtype, char *errcontext)
 {
-	if (game->map.array)
+	if (game && game->map.array)
 		free_array(game->map.array);
-	if (game->render.mlx)
+	if (game && game->render.mlx)
 	{
 		free_all_images(game);
-		if (game->render.win)
+		if (game && game->render.win)
 			mlx_destroy_window(game->render.mlx, game->render.win);
 		mlx_destroy_display(game->render.mlx);
 		free(game->render.mlx);

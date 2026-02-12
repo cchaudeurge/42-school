@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-void	*parse_init_check_map(t_game *game, char *map_path)
+void	parse_init_check_map(t_game *game, char *map_path)
 {
 	int	fd;
 	char 	**map_array;
@@ -24,7 +24,9 @@ void	*parse_init_check_map(t_game *game, char *map_path)
 	map_array = create_map_array(fd, game);
 	close(fd);
 	game->map.array = map_array;
-	game->map.width = ft_strlen(*map_array);
+	for (int i = 0; game->map.array[i]; i++)
+		ft_putendl_fd(game->map.array[i], 1);
+	game->map.width = (int)ft_strlen(*map_array);
 	game->map.height = array_len(map_array);
 	game->map.collectibles = count_element(map_array, COLLECTIBLE);
 	locate_start(game);
@@ -88,13 +90,14 @@ char	**create_map_array(int fd, t_game *game)
 		map[i] = line_lst->content;
 		line_lst = line_lst->next;
 		free(current);
+		i++;
 	}
 	return (map);
 }
 
-size_t	array_len(char **map)
+int	array_len(char **map)
 {
-	size_t	element_count;
+	int		element_count;
 	int		i;
 
 	element_count = 0;

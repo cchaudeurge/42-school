@@ -1,0 +1,17 @@
+{
+   MLX_X11_uninit
+   Memcheck:Param
+   writev(vector[0])
+   fun:writev
+   ...
+   fun:mlx_new_window
+}
+
+{
+   MLX_X11_uninit_2
+   Memcheck:Param
+   writev(vector[0])
+   fun:writev
+   ...
+   fun:mlx_loop
+}

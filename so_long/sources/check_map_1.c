@@ -1,16 +1,16 @@
 
 #include "so_long.h"
 
-static const char	*g_map_errmsg[conditions_count] = {
+/*static const char	*g_map_errmsg[conditions_count] = {
 	[extension] = "Map must be a .ber file.",
-	[characters] = "Your map must only contain the following characters: 0, 1, C, E, P.\n",
+	[characters] = "Your map must only contain the following characters: 0, 1, C, E, P.",
 	[map_exit] = "Your map must contain exactly one exit.",
 	[start] = "Your map must contain exactly one starting position.",
 	[collectibles] = "Your map must contain at least one collectible.",
 	[shape] = "Your map must be rectangular.",
 	[wall_enclosed] = "Your map must be wall enclosed.",
 	[valid_path] = "Your map must have a valid path."
-};
+};*/
 
 void	check_map(t_game *game)
 {
@@ -18,7 +18,7 @@ void	check_map(t_game *game)
 	check_exit(game);
 	check_start(game);
 	if (!game->map.collectibles)
-		clean_exit(game, EXIT_FAILURE, map_err, g_map_errmsg[collectibles]);
+		clean_exit(game, EXIT_FAILURE, map_err, "Your map must contain at least one collectible.");
 	check_shape(game);
 	check_wall_enclosed(game);
 	check_path(game);
@@ -26,15 +26,15 @@ void	check_map(t_game *game)
 
 void	check_shape(t_game *game)
 {
-    size_t	i;
-	size_t	length;
+    int		i;
+	int		length;
 
     i = 0;
     while (i < game->map.height)
     {
-        length = ft_strlen(game->map.array[i]);
+        length = (int)ft_strlen(game->map.array[i]);
 		if (length != game->map.width)
-			clean_exit(game, EXIT_FAILURE, map_err, g_map_errmsg[shape]);
+			clean_exit(game, EXIT_FAILURE, map_err, "Your map must be rectangular.");
         i++;
     }
 }
@@ -63,7 +63,7 @@ void	check_exit(t_game *game)
 
 	exit_count = count_element(game->map.array, EXIT);
 	if (exit_count != 1)
-		clean_exit(game, EXIT_FAILURE, map_err, g_map_errmsg[map_exit]);
+		clean_exit(game, EXIT_FAILURE, map_err, "Your map must contain exactly one exit.");
 }
 
 void	check_start(t_game *game)
@@ -72,7 +72,7 @@ void	check_start(t_game *game)
 
 	start_count = count_element(game->map.array, START);
 	if (start_count != 1)
-		clean_exit(game, EXIT_FAILURE, map_err, g_map_errmsg[start]);
+		clean_exit(game, EXIT_FAILURE, map_err, "Your map must contain exactly one starting position.");
 }
 
 
@@ -104,7 +104,7 @@ void	check_characters(t_game *game, char *valid_chars)
 		{
 			if (!ft_strchr(valid_chars, game->map.array[i][j]))
 				clean_exit(game, EXIT_FAILURE, map_err,
-				g_map_errmsg[characters]);
+				"Your map must only contain the following characters: 0, 1, C, E, P.");
 			j++;
 		}
 		i++;
@@ -113,7 +113,7 @@ void	check_characters(t_game *game, char *valid_chars)
 
 void	check_wall_enclosed(t_game *game)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (i < game->map.width)
@@ -121,7 +121,7 @@ void	check_wall_enclosed(t_game *game)
 		if (game->map.array[0][i] != WALL || game->map.array[game->map.height - 1][i]
 			!= WALL)
 			clean_exit(game, EXIT_FAILURE, map_err,
-			g_map_errmsg[wall_enclosed]);
+			"Your map must be wall enclosed.");
 		i++;
 	}
 	i = 1;
@@ -130,7 +130,7 @@ void	check_wall_enclosed(t_game *game)
 		if (game->map.array[i][0] != WALL || game->map.array[i][game->map.width
 			- 1] != WALL)
 			clean_exit(game, EXIT_FAILURE, map_err,
-			g_map_errmsg[wall_enclosed]);
+			"Your map must be wall enclosed.");
 		i++;
 	}
 }
@@ -174,14 +174,14 @@ void	check_path(t_game *game)
 	if (count_element(fill_map, EXIT) || count_element(fill_map, COLLECTIBLE))
 	{
 		free_array(fill_map);
-		clean_exit(game, EXIT_FAILURE, map_err, g_map_errmsg[valid_path]);
+		clean_exit(game, EXIT_FAILURE, map_err, "Your map must have a valid path.");
 	}
 	free_array(fill_map);
 }
 
 void	flood_fill(char **array, int y, int x, t_game *game)
 {
-	if (y < 0 || (size_t)y >= game->map.height || x < 0 || (size_t)x >=
+	if (y < 0 || y >= game->map.height || x < 0 || x >=
 		game->map.width || array[y][x] == WALL || array[y][x] == VISITED)
 		return ;
 	array[y][x] = VISITED;
@@ -195,11 +195,12 @@ void	flood_fill(char **array, int y, int x, t_game *game)
 char	**copy_map_array(t_game *game)
 {
 	char	**copy;
-	size_t	i;
+	int		i;
 
 	copy = (char **)ft_calloc(game->map.height + 1, sizeof(char *));
 	if (!copy)
 		clean_exit(game, EXIT_FAILURE, sys_err, "malloc");
+	i = 0;
 	while (i < game->map.height)
 	{
 		copy[i] = ft_strdup((game->map.array)[i]);
@@ -247,7 +248,7 @@ char	**copy_map_array(t_game *game)
 		i++;
 	}
 	return (1);
-}/*
+}*/
 
 /*int	is_wall_enclosed(char **map)
 {

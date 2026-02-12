@@ -1,4 +1,4 @@
-#include "so_long.h"
+/*#include "so_long.h"
 
 void	init_render(t_game *game)
 {
@@ -16,5 +16,5 @@ void	init_player(t_game *game)
 	game->player.pos.x = game->map.start.x;
 	game->player.pos.y = game->map.start.y;
 	game->player.moves = 0;
-}
+}*/
 

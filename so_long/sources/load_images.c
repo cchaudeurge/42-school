@@ -30,18 +30,18 @@ void	load_player_imgs(t_game *game)
 
 void	load_other_imgs(t_game *game)
 {
-	load_img(game, game->render.environment.wall[0], "wallA.xpm");
-	load_img(game, game->render.environment.wall[1], "wallB.xpm");
-	load_img(game, game->render.environment.empty[0], "floorA.xpm");
-	load_img(game, game->render.environment.empty[1], "floorB.xpm");
-	load_img(game, game->render.environment.exit[0], "exit1.xpm");
-	load_img(game, game->render.environment.exit[1], "exit2.xpm");
-	load_img(game, game->render.environment.exit[2], "exit3.xpm");
-	load_img(game, game->render.environment.exit[3], "exit4.xpm");
-	load_img(game, game->render.collectible[0], "coin1.xpm");
-	load_img(game, game->render.collectible[1], "coin2.xpm");
-	load_img(game, game->render.collectible[2], "coin3.xpm");
-	load_img(game, game->render.collectible[3], "coin4.xpm");
+	load_img(game, game->render.env.wall[0], "wallA.xpm");
+	load_img(game, game->render.env.wall[1], "wallB.xpm");
+	load_img(game, game->render.env.empty[0], "floorA.xpm");
+	load_img(game, game->render.env.empty[1], "floorB.xpm");
+	load_img(game, game->render.env.exit[0], "exit1.xpm");
+	load_img(game, game->render.env.exit[1], "exit2.xpm");
+	load_img(game, game->render.env.exit[2], "exit3.xpm");
+	load_img(game, game->render.env.exit[3], "exit4.xpm");
+	load_img(game, game->render.collect[0], "coin1.xpm");
+	load_img(game, game->render.collect[1], "coin2.xpm");
+	load_img(game, game->render.collect[2], "coin3.xpm");
+	load_img(game, game->render.collect[3], "coin4.xpm");
 }
 
 void	load_enemy_imgs(t_game *game)
@@ -90,12 +90,9 @@ void	load_frames(t_game *game, t_img *frames, char *base, int count)
 		path = build_path(game, base, i);
 		frames[i].img_ptr = mlx_xpm_file_to_image(game->render.mlx, path,
 			&frames[i].width, &frames[i].height);
-		if (!frames[i].img_ptr)
-		{
-			free(path);
-			clean_exit(game, EXIT_FAILURE, sys_err, "mlx_xpm_file_to_image");
-		}
 		free(path);
+		if (!frames[i].img_ptr)
+			clean_exit(game, EXIT_FAILURE, sys_err, "mlx_xpm_file_to_image");
 		i++;
 	}
 }
@@ -106,10 +103,10 @@ void	load_all_images(t_game *game)
 	load_frames(game, game->render.player.down, PL_DOWN_BASE, PLAYER_FRAMES);
 	load_frames(game, game->render.player.left, PL_LEFT_BASE, PLAYER_FRAMES);
 	load_frames(game, game->render.player.right, PL_RIGHT_BASE, PLAYER_FRAMES);
-	load_frames(game, game->render.collectible.frame, COLLECT_BASE, COLLECT_FRAMES);
-	load_frames(game, game->render.environment.exit, EXIT_BASE, EXIT_FRAMES);
-	load_frames(game, game->render.environment.wall, WALL_BASE, WALL_FRAMES);
-	load_frames(game, game->render.environment.empty, EMPTY_BASE, EMPTY_FRAMES);
+	load_frames(game, game->render.env.coll, COLLECT_BASE, COLLECT_FRAMES);
+	load_frames(game, game->render.env.exit, EXIT_BASE, EXIT_FRAMES);
+	load_frames(game, game->render.env.wall, WALL_BASE, WALL_FRAMES);
+	load_frames(game, game->render.env.empty, EMPTY_BASE, EMPTY_FRAMES);
 }
 
 /*void	load_all_images(t_game *game)
