@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 void	parse_init_check_map(t_game *game, char *map_path)
 {
@@ -24,6 +24,7 @@ void	parse_init_check_map(t_game *game, char *map_path)
 	map_array = create_map_array(fd, game);
 	close(fd);
 	game->map.array = map_array;
+	//remove for loop before eval
 	for (int i = 0; game->map.array[i]; i++)
 		ft_putendl_fd(game->map.array[i], 1);
 	game->map.width = (int)ft_strlen(*map_array);
@@ -31,17 +32,6 @@ void	parse_init_check_map(t_game *game, char *map_path)
 	game->map.collectibles = count_element(map_array, COLLECTIBLE);
 	locate_start(game);
 	check_map(game);
-}
-
-void	check_extension(t_game *game, char *map_path)
-{
-	size_t	length;
-
-	length = ft_strlen(map_path);
-	if (length > 4 && ft_strncmp(map_path + length - 4, ".ber", 4) == 0)
-		return ;
-	else
-		clean_exit(game, EXIT_FAILURE, map_err, "Map must be a .ber file.");
 }
 
 t_list	*create_map_list(int fd, t_game *game)
@@ -119,9 +109,9 @@ void	locate_start(t_game *game)
 			i++;
 		else
 		{
-			game->map.start.y = i;
+			game->player.pos.y = i;
 			start_ptr = ft_strchr(game->map.array[i], START);
-			game->map.start.x = start_ptr - game->map.array[i];
+			game->player.pos.x = start_ptr - game->map.array[i];
 			return ;
 		}
 	}

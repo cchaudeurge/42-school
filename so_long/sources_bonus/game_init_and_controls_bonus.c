@@ -1,14 +1,11 @@
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 
 void	init_game(t_game *game, char *map_path)
 {
 	parse_init_check_map(game, map_path);
-	game->state = PLAYING;
-	game->exit_state = CLOSED;
-	game->player.pos.x = game->map.start.x;
-	game->player.pos.y = game->map.start.y;
+	game->state = playing;
 	game->player.moves = 0;
 	game->render.mlx = mlx_init();
 	if (!game->render.mlx)
@@ -18,6 +15,7 @@ void	init_game(t_game *game, char *map_path)
 	if (!game->render.win)
 		clean_exit(game, EXIT_FAILURE, sys_err, "mlx_new_window");
 	load_all_images(game);
+	mlx_set_font(game->render.mlx, game->render.win, "-adobe-courier-bold-r-normal--24-240-75-75-m-150-iso8859-1");
 }
 
 int	key_handler(int keycode, void *param)
@@ -28,13 +26,13 @@ int	key_handler(int keycode, void *param)
 	if (keycode == XK_Escape)
 		clean_exit(game, EXIT_SUCCESS, 0, NULL);
 	else if (keycode == XK_Left || keycode == XK_a)
-		move_player(game, -1, 0, LEFT);
+		move_player(game, -1, 0, left);
 	else if (keycode == XK_Right || keycode == XK_d)
-		move_player(game, 1, 0, RIGHT);
+		move_player(game, 1, 0, right);
 	else if (keycode == XK_Up || keycode == XK_w)
-		move_player(game, 0, -1, UP);
+		move_player(game, 0, -1, up);
 	else if (keycode == XK_Down || keycode == XK_s)
-		move_player(game, 0, 1, DOWN);
+		move_player(game, 0, 1, down);
 	return (0);
 }
 
@@ -55,13 +53,15 @@ void	move_player(t_game *game, int dx, int dy, t_direction direction)
 		game->map.collectibles--;
 		game->map.array[target.y][target.x] = EMPTY;
 		if (game->map.collectibles == 0)
-			game->exit_state = OPEN;
+			game->map.exit_is_open = true;
 	}
-	else if (target_tile == EXIT && game->exit_state == OPEN)
-		game->state = WON;
+	else if (target_tile == EXIT && game->map.exit_is_open)
+		game->state = won;
+	else if (target_tile == ENEMY)
+		game->state = lost;
 	game->player.pos = target;
 	game->player.moves++;
-	game->render.needed = TRUE;
+	game->render.needed = true;
 	put_moves(game);
 }
 
@@ -80,9 +80,3 @@ int	exit_game(void *param)
 	clean_exit(game, EXIT_SUCCESS, 0, NULL);
 	return (0);
 }
-
-	
-/*void	render_won(t_game *game)
-{
-}*/
-

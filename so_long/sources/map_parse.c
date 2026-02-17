@@ -1,0 +1,118 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/20 23:50:58 by cchaudeu          #+#    #+#             */
+/*   Updated: 2025/10/28 10:44:34 by cchaudeu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "so_long.h"
+
+void	parse_init_check_map(t_game *game, char *map_path)
+{
+	int	fd;
+	char 	**map_array;
+
+	check_extension(game, map_path);
+	fd = open(map_path, O_RDONLY);
+	if (fd < 0)
+		clean_exit(game, EXIT_FAILURE, sys_err, "open");
+	map_array = create_map_array(fd, game);
+	close(fd);
+	game->map.array = map_array;
+	//remove for loop before eval
+	for (int i = 0; game->map.array[i]; i++)
+		ft_putendl_fd(game->map.array[i], 1);
+	game->map.width = (int)ft_strlen(*map_array);
+	game->map.height = array_len(map_array);
+	game->map.collectibles = count_element(map_array, COLLECTIBLE);
+	locate_start(game);
+	check_map(game);
+}
+
+t_list	*create_map_list(int fd, t_game *game)
+{
+	t_list	*line_lst;
+	char	*line;
+	t_list	*new_node;
+
+    line_lst = NULL;
+	line = gnl_without_nl(fd);
+	while (line)
+	{
+		new_node = ft_lstnew(line);
+		if (!new_node)
+		{
+			free(line);
+			ft_lstclear(&line_lst, free);
+			close(fd);
+			clean_exit(game, EXIT_FAILURE, sys_err, "malloc");
+		}
+		ft_lstadd_back(&line_lst, new_node);
+		line = gnl_without_nl(fd);
+	}
+	return (line_lst);
+}
+
+char	**create_map_array(int fd, t_game *game)
+{
+    char    **map;
+    t_list	*line_lst;
+	t_list	*current;
+	int		i;
+
+	line_lst = create_map_list(fd, game);
+    map = (char **)ft_calloc((ft_lstsize(line_lst) + 1), sizeof(char *));
+    if (!map)
+	{
+		ft_lstclear(&line_lst, free);
+		close(fd);
+		clean_exit(game, EXIT_FAILURE, sys_err, "malloc");
+	}
+    i = 0;
+    while (line_lst)
+	{
+		current = line_lst;
+		map[i] = line_lst->content;
+		line_lst = line_lst->next;
+		free(current);
+		i++;
+	}
+	return (map);
+}
+
+int	array_len(char **map)
+{
+	int		element_count;
+	int		i;
+
+	element_count = 0;
+	i = 0;
+	while (map[i++])
+		element_count++;
+	return (element_count);
+}
+
+void	locate_start(t_game *game)
+{
+	int	i;
+	char	*start_ptr;
+
+	i = 0;
+	while (game->map.array[i])
+	{
+		if (!ft_strchr(game->map.array[i], START))
+			i++;
+		else
+		{
+			game->player.pos.y = i;
+			start_ptr = ft_strchr(game->map.array[i], START);
+			game->player.pos.x = start_ptr - game->map.array[i];
+			return ;
+		}
+	}
+}
