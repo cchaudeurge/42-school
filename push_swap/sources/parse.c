@@ -19,13 +19,13 @@ void	parse(t_sorter *sorter, int argc, char *argv[])
 	int	i;
 
 	sorter->nb_qty = argc - 1;
-	sorter->numbers = (t_number *)ft_calloc((size_t)nb_qty, sizeof(t_number));
+	sorter->numbers = (t_number *)ft_calloc((size_t)(argc - 1), sizeof(t_number));
 	if (! sorter->numbers)
 		clean_exit(sorter, EXIT_FAILURE, system_error, "malloc");
 	i = 0;
-	while (argv[i])
+	while (argv[i + 1])
 	{
-		number = atol_check_toi(argv[i], sorter);
+		number = atol_check_toi(argv[i + 1], sorter);
 		if (isduplicate(sorter->numbers, i, number))
 			clean_exit(sorter, EXIT_FAILURE, input_error, NULL);
 		sorter->numbers[i].value = number;
@@ -65,6 +65,7 @@ int isduplicate(t_number *numbers, int current_index, int number)
 {
 	int	i;
 
+	i = 0;
 	while (i < current_index)
 	{
 		if (number == numbers[i].value)

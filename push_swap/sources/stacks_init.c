@@ -3,26 +3,30 @@
 void	create_and_fill_stacks(t_sorter *sorter)
 {
 	int		issorted;
-	t_size	stack_size;
+	size_t	stack_size;
 	int		i;
-	int		index;
+	int		idx;
 
-	issorted = bubble_sort(sorter->numbers, nb_qty);
+	issorted = bubble_sort(sorter->numbers, sorter->nb_qty);
 	if (issorted)
+	{
+		//remove printf
+		printf("is sorted");
 		clean_exit(sorter, EXIT_SUCCESS, no_error, NULL);
-	stack_size = (t_size)sorter->nbr_qty;
-	sorter->stack_a.array = (int *)malloc(stack_size, sizeof(int));
-	sorter->stack_b.array = (int *)malloc(stack_size, sizeof(int));
+	}
+	stack_size = (size_t)sorter->nb_qty;
+	sorter->stack_a.array = (int *)malloc(stack_size * sizeof(int));
+	sorter->stack_b.array = (int *)malloc(stack_size * sizeof(int));
 	if (!sorter->stack_a.array || !sorter->stack_b.array)
 		clean_exit(sorter, EXIT_FAILURE, system_error, "malloc");
 	//sorter->stack_b.head = 0;
 	//sorter->stack_b.size = 0;
-	sorter->stack_b.capacity = sorter->nbr_qty;
+	sorter->stack_b.capacity = sorter->nb_qty;
 	i = 0;
-	while (i < sorter->nbr_qty)
+	while (i < sorter->nb_qty)
 	{
-		index = sorter->numbers[i].index;
-		sorter->stack_a.array[index] = i;
+		idx = sorter->numbers[i].index;
+		sorter->stack_a.array[idx] = i;
 		i++;
 	}
 	sorter->stack_a.head = 0;
@@ -48,7 +52,7 @@ int	bubble_sort(t_number *numbers, int size)
 		i = 0;
 		while (i + 1 < size - j)
 		{
-			if (numbers[i] > numbers [i + 1])
+			if (numbers[i].value > numbers [i + 1].value)
 			{
 				issorted = 0;
 				buffer = numbers[i];

@@ -16,6 +16,7 @@ SRCS			= $(addprefix $(SRCS_DIR),	\
 				main.c						\
 				parse.c						\
 				stacks_init.c				\
+				lis.c						\
 				cleanup.c)
 #BONUS_SRCS		= $(addprefix $(BONUS_DIR),		\
 				main_bonus.c					\

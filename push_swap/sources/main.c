@@ -20,6 +20,7 @@ int	main(int argc, char *argv[])
 	if (argc < 2)
 		clean_exit(&sorter, EXIT_FAILURE, input_error, NULL);
 	parse(&sorter, argc, argv);
+	printf("got here");
 	print_numbers(sorter.numbers, sorter.nb_qty);
 	create_and_fill_stacks(&sorter);
 	print_numbers(sorter.numbers, sorter.nb_qty);
@@ -52,8 +53,8 @@ void	print_stack(t_stack stack, char a_or_b)
 	index = stack.head;
 	while (i < stack.size)
 	{
-		printf("Index %d: value is %d\n", i, stack.array[index]);
-		index = (index + 1) % capacity;
+		printf("Index %d: normalized value is %d\n", i, stack.array[index]);
+		index = (index + 1) % stack.capacity;
 		i++;
 	}
 }
