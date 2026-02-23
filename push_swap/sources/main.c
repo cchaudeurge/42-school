@@ -10,7 +10,56 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "push_swap.h"
+
 int	main(int argc, char *argv[])
+{
+	t_sorter	sorter;
+
+	ft_bzero(&sorter, sizeof(t_sorter));
+	if (argc < 2)
+		clean_exit(&sorter, EXIT_FAILURE, input_error, NULL);
+	parse(&sorter, argc, argv);
+	print_numbers(sorter.numbers, sorter.nb_qty);
+	create_and_fill_stacks(&sorter);
+	print_numbers(sorter.numbers, sorter.nb_qty);
+	print_stack(sorter.stack_a, 'a');
+	print_stack(sorter.stack_b, 'b');
+	clean_exit(&sorter, EXIT_SUCCESS, 0, NULL);
+}
+
+void	print_numbers(t_number *numbers, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		printf("Index %d: value is %d, index is %d\n", i, numbers[i].value,
+		numbers[i].index);
+		i++;
+	}
+}
+
+void	print_stack(t_stack stack, char a_or_b)
+{
+	int	i;
+	int index;
+
+	printf("Stack %c head is %d, size is %d, and capacity is %d\n", a_or_b, stack.head,
+	stack.size, stack.capacity);
+	i = 0;
+	index = stack.head;
+	while (i < stack.size)
+	{
+		printf("Index %d: value is %d\n", i, stack.array[index]);
+		index = (index + 1) % capacity;
+		i++;
+	}
+}
+
+
+/*int	main(int argc, char *argv[])
 {
 	t_stack	*a;
 
@@ -20,7 +69,7 @@ int	main(int argc, char *argv[])
 void	push_swap(t_stack **a, char	*argv[])
 {
 	if (!parse)
-}
+}*/
 		
 /*int	is_short_number(char *str)
 {
