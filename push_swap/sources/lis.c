@@ -1,3 +1,5 @@
+#include "push_swap.h"
+
 void	flag_longest_lis(t_sorter *sorter)
 {
 	t_lis	lis_array[sorter->nb_qty];
@@ -8,13 +10,13 @@ void	flag_longest_lis(t_sorter *sorter)
 	find_longest_lis(sorter);
 	last_elem_index = fill_lis_array(lis_array, sorter);
 	i = last_elem_index;
-	while (i != array[i].prev_idx)
+	while (i != lis_array[i].prev_idx)
 	{
-		nbr = array[i].nbr;
+		nbr = lis_array[i].nbr;
 		sorter->numbers[nbr].lis = true;
-		i = array[i].prev_idx;
+		i = lis_array[i].prev_idx;
 	}
-	nbr = array[i].nbr;
+	nbr = lis_array[i].nbr;
 	sorter->numbers[nbr].lis = true;
 }
 	
@@ -43,9 +45,9 @@ int	fill_lis_array(t_lis *array, t_sorter *sorter)
 	while (i < sorter->nb_qty)
 	{
 		array[i].nbr = sorter->stack_a.array[(sorter->lis_head + i) % sorter->nb_qty];
-		lis_array[i].lis = 1;
-		lis_array[i].prev_idx = i;
-		j = 0
+		array[i].lis = 1;
+		array[i].prev_idx = i;
+		j = 0;
 		while (j < i)
 		{
 			if (array[j].nbr < array[i].nbr && array[j].lis + 1 > array[i].lis)
@@ -72,7 +74,7 @@ void	find_longest_lis(t_sorter *sorter)
 	current_head = 1;
 	while (current_head < sorter->stack_a.capacity)
 	{
-		current_lis_len = lis_length(sorter->stack.a, current_head);
+		current_lis_len = lis_length(sorter->stack_a, current_head);
 		if (current_lis_len > sorter->lis_len)
 		{
 			sorter->lis_len = current_lis_len;
@@ -86,12 +88,13 @@ void	find_longest_lis(t_sorter *sorter)
 
 int	lis_length(t_stack stack, int head)
 {
-	int	lis_array[stack->size];
+	int	lis_array[stack.size];
 	int last;
 	int	i;
 	int insertion_idx;
 
-	lis_array[head] = stack.array[0];
+//	lis_array[head] = stack.array[0];
+	lis_array[0] = stack.array[head];
 	last = 0;
 	i = (head + 1) % stack.capacity;
 	while (i != head)
@@ -104,7 +107,7 @@ int	lis_length(t_stack stack, int head)
 		else
 		{
 			insertion_idx = upper_bound_sorted(lis_array, stack.array[i], last); 
-			lis_array[insertion_index] = stack.array[i];
+			lis_array[insertion_idx] = stack.array[i];
 		}
 		i = (i + 1) % stack.capacity;
 	}

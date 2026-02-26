@@ -65,3 +65,17 @@ int	bubble_sort(t_number *numbers, int size)
 	}
 	return (issorted);
 }
+
+/*void	fill_stack_b(t_sorter *sorter)
+{
+	int	first_lis;
+	int	i;
+
+	first_lis = -1;
+	i = sorter->stack_a.head;
+	while (sorter->stack_a.array[i] != first_lis)
+	{
+		if
+
+	*/
+

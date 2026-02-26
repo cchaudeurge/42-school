@@ -20,15 +20,29 @@ int	main(int argc, char *argv[])
 	if (argc < 2)
 		clean_exit(&sorter, EXIT_FAILURE, input_error, NULL);
 	parse(&sorter, argc, argv);
-	printf("got here");
-	print_numbers(sorter.numbers, sorter.nb_qty);
+	//print_numbers(sorter.numbers, sorter.nb_qty);
 	create_and_fill_stacks(&sorter);
-	print_numbers(sorter.numbers, sorter.nb_qty);
-	print_stack(sorter.stack_a, 'a');
-	print_stack(sorter.stack_b, 'b');
+	flag_longest_lis(&sorter);
+	printf("LIS is %d/%d\n", sorter.lis_len, sorter.nb_qty);
+	print_lis(&sorter);
+	//print_numbers(sorter.numbers, sorter.nb_qty);
+//	print_stack(sorter.stack_a, 'a');
+//	print_stack(sorter.stack_b, 'b');
 	clean_exit(&sorter, EXIT_SUCCESS, 0, NULL);
 }
 
+void	print_lis(t_sorter *sorter)
+{ 
+	int	i;
+
+	i = 0;
+	while (i < sorter->nb_qty)
+	{
+		if (sorter->numbers[i].lis == true)
+			printf("%d\n", sorter->numbers[i].value);
+		i++;
+	}
+}
 void	print_numbers(t_number *numbers, int size)
 {
 	int	i;
