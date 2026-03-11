@@ -104,7 +104,7 @@ static int	extract_and_clean_buff(t_list **buff, char **line, int *fail)
 	return (0);
 }
 
-char	*gnl_with_nl(int fd)
+char	*ft_gnl_with_nl(int fd)
 {
 	static t_list	*buff[100];
 	char			*line;

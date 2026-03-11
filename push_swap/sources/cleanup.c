@@ -6,10 +6,12 @@ void	clean_exit(t_sorter *sorter, int exit_code, t_errtype errtype, char	*contex
 	{
 		if (sorter->numbers)
 			free(sorter->numbers);
-		if (sorter->stack_a.array)
-			free(sorter->stack_a.array);
-		if (sorter->stack_b.array)
-			free(sorter->stack_b.array);
+		if (sorter->stack_a.arr)
+			free(sorter->stack_a.arr);
+		if (sorter->stack_b.arr)
+			free(sorter->stack_b.arr);
+		if (sorter->move_lst)
+			ft_lstclear(&sorter->move_lst, free);
 	}
 	if (exit_code == EXIT_FAILURE)
 	{
@@ -17,5 +19,6 @@ void	clean_exit(t_sorter *sorter, int exit_code, t_errtype errtype, char	*contex
 		if (errtype == system_error)
 			perror(context);
 	}
-	exit(exit_code);
+	if (exit_code != -1)
+		exit(exit_code);
 }

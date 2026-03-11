@@ -87,9 +87,22 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+void	ft_lstadd_after_node(t_list **node, t_list *new);
+
+/*Doubly linked list*/
+typedef struct s_dlist
+{
+	void			*content;
+	struct s_dlist	*prev;
+	struct s_dlist	*next;
+}		t_dlist;
 
 /*Get next line*/
-char	*gnl_with_nl(int fd);
-char	*gnl_without_nl(int fd);
+char	*ft_gnl_with_nl(int fd);
+char	*ft_gnl_without_nl(int fd);
+
+/*Math*/
+int	ft_abs(int nbr);
+int	ft_max_abs(int a, int b);
 
 #endif

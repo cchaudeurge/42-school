@@ -1,64 +1,71 @@
 NAME			= push_swap
-#BONUS_NAME		= push_swap_bonus
+
+BONUS_NAME		= checker
+
 GREEN			= \033[0;32m
 RED				= \033[0;31m
 RESET			= \033[0m
-LIBFT			= ./libft/libft.a
+
 CC				= cc
 FLAGS			= -Wall -Werror -Wextra
 VALGRIND		= @valgrind --leak-check=full --show-leak-kinds=all \
-				--track-origins=yes --quiet --tool=memcheck --keep-debuginfo=yes --suppressions=mlx.supp
+				--track-origins=yes --quiet --tool=memcheck	--keep-debuginfo=yes
 REMOVE			= rm -f
-
 SRCS_DIR		= ./sources/
-#BONUS_DIR		= ./sources_bonus/
+BONUS_DIR		= ./sources_bonus/
 SRCS			= $(addprefix $(SRCS_DIR),	\
 				main.c						\
 				parse.c						\
 				stacks_init.c				\
 				lis.c						\
 				operations.c				\
+				optimizations.c				\
+				target.c					\
+				cost.c						\
+				empty_b.c					\
+				move_list.c					\
 				cleanup.c)
-#BONUS_SRCS		= $(addprefix $(BONUS_DIR),		\
+BONUS_SRCS		= $(addprefix $(BONUS_DIR),		\
 				main_bonus.c					\
-				game_init_and_controls_bonus.c	\
-				game_loop_bonus.c				\
-				game_render_bonus.c				\
-				map_parse_bonus.c				\
-				map_validate_1_bonus.c			\
-				map_validate_2_bonus.c			\
-				errors_and_exit_bonus.c			\
-				images_load_bonus.c)
+				parse_bonus.c					\
+				operations_bonus.c				\
+				cleanup_bonus.c)
+OBJS			= $(SRCS:.c=.o)
+BONUS_OBJS		= $(BONUS_SRCS:.c=.o)
+INCL			= -I./libft
+LIBFT_DIR		= ./libft
+LIBFT			= $(LIBFT_DIR)/libft.a
 
-all:			${NAME}
+all:			$(NAME)
 
-${NAME}:		${SRCS}
-				${CC} ${FLAGS} ${SRCS} ${LIBFT} -o ${NAME}
+$(NAME):		$(OBJS) $(LIBFT)
+				$(CC) $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 				@echo "$(NAME): $(GREEN)$(NAME) was compiled.$(RESET)"
 				@echo
 
-#bonus:			${BONUS_NAME}
+bonus:			$(BONUS_NAME)
 
-#${BONUS_NAME}:	${BONUS_SRCS}
-				#${CC} ${FLAGS} -I./minilibx-linux ${BONUS_SRCS} ${LIBFT} -o ${BONUS_NAME} ${MLX_FLAGS}
-#				@echo "$(BONUS_NAME): $(GREEN)$(BONUS_NAME) was compiled with bonus.$(RESET)"
-#				@echo
-
-clean:
-				@echo "Nothing to clean (no object files)"
+$(BONUS_NAME):	$(BONUS_OBJS) | $(LIBFT)
+				$(CC) $(FLAGS) $(BONUS_OBJS) $(LIBFT) -o $(BONUS_NAME)
+				@echo "$(BONUS_NAME): $(GREEN)$(BONUS_NAME) was compiled with bonus.$(RESET)"
 				@echo
 
-fclean:			
-				${REMOVE} ${NAME} #${BONUS_NAME}
-				#@echo "${NAME}: ${RED}${NAME} and ${BONUS_NAME} were deleted${RESET}"
-				#@echo
+$(LIBFT):
+				@$(MAKE) -C $(LIBFT_DIR)
+
+%.o:			%.c
+				$(CC) $(FLAGS) $(INCL) -c $< -o $@
+
+clean:			
+				$(REMOVE) $(OBJS) $(BONUS_OBJS)
+				$(MAKE) clean -C $(LIBFT_DIR)
+
+fclean:			clean
+				$(REMOVE) $(NAME) $(BONUS_NAME)
+				$(MAKE) fclean -C $(LIBFT_DIR)
+				@echo "$(NAME): $(RED)$(NAME) and $(BONUS_NAME) were deleted$(RESET)"
+				@echo
 
 re:				fclean all
 
-#run:			${NAME}
-#				${VALGRIND} ./${NAME} assets/maps/valid/map4.ber
-
-#run_bonus:		${BONUS_NAME}
-#				${VALGRIND} ./${BONUS_NAME} assets/maps/valid/bonus/map5.ber
-
-PHONY:			all clean fclean re
+.PHONY:			all bonus clean fclean re

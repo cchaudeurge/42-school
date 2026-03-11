@@ -15,7 +15,7 @@
 /*Swap the first 2 elements at the top of a stack.
  * Do nothing if there is only one element or none.*/
 
-void	do_swap(t_sorter *sorter, t_stack_id stack_id)
+void	do_swap(t_checker *checker, t_stack_id stack_id)
 {
 	t_stack	*stack;
 	int		temp;
@@ -24,13 +24,13 @@ void	do_swap(t_sorter *sorter, t_stack_id stack_id)
 	stack = NULL;
 	if (stack_id == both_ab)
 	{
-		do_swap(sorter, stack_a);
-		do_swap(sorter, stack_b);
+		do_swap(checker, stack_a);
+		do_swap(checker, stack_b);
 	}
-	else if (stack_id == stack_a && sorter->stack_a.size >= 2)
-		stack = &sorter->stack_a;
-	else if (stack_id == stack_b && sorter->stack_b.size >= 2)
-		stack = &sorter->stack_b;
+	else if (stack_id == stack_a && checker->stack_a.size >= 2)
+		stack = &checker->stack_a;
+	else if (stack_id == stack_b && checker->stack_b.size >= 2)
+		stack = &checker->stack_b;
 	if (stack)
 	{
 		head = stack->hd;
@@ -44,7 +44,7 @@ void	do_swap(t_sorter *sorter, t_stack_id stack_id)
  * other stack. Do nothing if the first stack is empty. pa (push a) pushes the
  * first element at the top of b to a (push to a).*/
 
-void	do_push(t_sorter *sorter, t_stack_id stack_id)
+void	do_push(t_checker *checker, t_stack_id stack_id)
 {
 	t_stack *source;
 	t_stack	*target;
@@ -52,13 +52,13 @@ void	do_push(t_sorter *sorter, t_stack_id stack_id)
 
 	if (stack_id == stack_a)
 	{
-		target = &sorter->stack_a;
-		source = &sorter->stack_b;
+		target = &checker->stack_a;
+		source = &checker->stack_b;
 	}
 	else if (stack_id == stack_b)
 	{
-		target = &sorter->stack_b;
-		source = &sorter->stack_a;
+		target = &checker->stack_b;
+		source = &checker->stack_a;
 	}
 	if (source->size >= 1)
 	{
@@ -74,7 +74,7 @@ void	do_push(t_sorter *sorter, t_stack_id stack_id)
 /*Shift up all elements of a stack by 1.
  * The first element becomes the last one.*/
 
-void	do_rotate(t_sorter *sorter, t_stack_id stack_id)
+void	do_rotate(t_checker *checker, t_stack_id stack_id)
 {
 	t_stack	*stack;
 	int		new_head;
@@ -82,13 +82,13 @@ void	do_rotate(t_sorter *sorter, t_stack_id stack_id)
 
 	if (stack_id == both_ab)
 	{
-		do_rotate(sorter, stack_a);
-		do_rotate(sorter, stack_b);
+		do_rotate(checker, stack_a);
+		do_rotate(checker, stack_b);
 	}
 	else if (stack_id == stack_a)
-		stack = &sorter->stack_a;
+		stack = &checker->stack_a;
 	else if (stack_id == stack_b)
-		stack = &sorter->stack_b;
+		stack = &checker->stack_b;
 	if (stack->size >= 2)
 	{
 		new_head = (stack->hd + 1) % stack->cap;
@@ -101,7 +101,7 @@ void	do_rotate(t_sorter *sorter, t_stack_id stack_id)
 /*Shift down all elements of a stack by 1.
  * The last element becomes the first one.*/
 
-void	do_revrotate(t_sorter *sorter, t_stack_id stack_id)
+void	do_revrotate(t_checker *checker, t_stack_id stack_id)
 {
 	t_stack	*stack;
 	int		new_head;
@@ -109,13 +109,13 @@ void	do_revrotate(t_sorter *sorter, t_stack_id stack_id)
 
 	if (stack_id == both_ab)
 	{
-		do_revrotate(sorter, stack_a);
-		do_revrotate(sorter, stack_b);
+		do_revrotate(checker, stack_a);
+		do_revrotate(checker, stack_b);
 	}
 	else if (stack_id == stack_a)
-		stack = &sorter->stack_a;
+		stack = &checker->stack_a;
 	else if (stack_id == stack_b)
-		stack = &sorter->stack_b;
+		stack = &checker->stack_b;
 	if (stack->size >= 2)
 	{
 		new_head = (stack->hd - 1 + stack->cap) % stack->cap;
@@ -125,33 +125,30 @@ void	do_revrotate(t_sorter *sorter, t_stack_id stack_id)
 	}
 }
 
-void	move(t_sorter *sorter, int count, t_operation operation, t_stack_id stack)
+void	do_move(t_checker *checker, char *move)
 {
-	int	first_a;
-
-	record_move(sorter, count, operation, stack);
-	while (count--)
-	{
-		if (operation == swap)
-			do_swap(sorter, stack);
-		else if (operation == push)
-		{
-			do_push(sorter, stack);
-			//maybe need to also change LIS status of first_a below
-			if (stack == stack_a)
-			{
-				sorter->lis_len++;
-				first_a = sorter->stack_a.arr[sorter->stack_a.hd];
-				sorter->numbers[first_a].lis = true;
-				if (first_a < sorter->stack_a.min)
-					sorter->stack_a.min = first_a;
-				else if (first_a > sorter->stack_a.max)
-					sorter->stack_a.max = first_a;
-			}
-		}
-		else if (operation == rotate)
-			do_rotate(sorter, stack);
-		else if (operation == revrotate)
-			do_revrotate(sorter, stack);
-	}
+	if (ft_strncmp(move, "pa\n", 3) == 0)
+		do_push(checker, stack_a);
+	else if (ft_strncmp(move, "pb\n", 3) == 0)
+		do_push(checker, stack_b);
+	else if (ft_strncmp(move, "ra\n", 3) == 0)
+		do_rotate(checker, stack_a);
+	else if (ft_strncmp(move, "rb\n", 3) == 0)
+		do_rotate(checker, stack_b);
+	else if (ft_strncmp(move, "rr\n", 3) == 0)
+		do_rotate(checker, both_ab);
+	else if (ft_strncmp(move, "rra\n", 3) == 0)
+		do_revrotate(checker, stack_a);
+	else if (ft_strncmp(move, "rrb\n", 3) == 0)
+		do_revrotate(checker, stack_b);
+	else if (ft_strncmp(move, "rrr\n", 3) == 0)
+		do_revrotate(checker, both_ab);
+	else if (ft_strncmp(move, "sa", 3) == 0)
+		do_swap(checker, stack_a);
+	else if (ft_strncmp(move, "sb", 3) == 0)
+		do_swap(checker, stack_b);
+	else if (ft_strncmp(move, "sss", 3) == 0)
+		do_swap(checker, both_ab);
+	else
+		clean_exit(checker, EXIT_FAILURE, input_error, NULL);
 }

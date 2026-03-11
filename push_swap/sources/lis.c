@@ -7,9 +7,10 @@ void	flag_longest_lis(t_sorter *sorter)
 	int	i;
 	int	nbr;
 
-	find_longest_lis(sorter);
+	optimize_lis(sorter);
 	last_elem_index = fill_lis_array(lis_array, sorter);
 	i = last_elem_index;
+	sorter->stack_a.max = lis_array[i].nbr;
 	while (i != lis_array[i].prev_idx)
 	{
 		nbr = lis_array[i].nbr;
@@ -17,9 +18,10 @@ void	flag_longest_lis(t_sorter *sorter)
 		i = lis_array[i].prev_idx;
 	}
 	nbr = lis_array[i].nbr;
+	sorter->stack_a.min = nbr;
 	sorter->numbers[nbr].lis = true;
 }
-	
+
 /*void	flag_lis_elem(t_lis *array, t_sorter *sorter, int last_elem_index)
 {
 	int	i;
@@ -44,13 +46,13 @@ int	fill_lis_array(t_lis *array, t_sorter *sorter)
 	i = 0;
 	while (i < sorter->nb_qty)
 	{
-		array[i].nbr = sorter->stack_a.array[(sorter->lis_head + i) % sorter->nb_qty];
+		array[i].nbr = sorter->stack_a.arr[(sorter->lis_head + i) % sorter->nb_qty];
 		array[i].lis = 1;
 		array[i].prev_idx = i;
 		j = 0;
 		while (j < i)
 		{
-			if (array[j].nbr < array[i].nbr && array[j].lis + 1 > array[i].lis)
+			if (array[j].nbr < array[i].nbr && array[j].lis + 1 >= array[i].lis)
 			{
 				array[i].lis = array[j].lis + 1;
 				array[i].prev_idx = j;
@@ -72,7 +74,7 @@ void	find_longest_lis(t_sorter *sorter)
 	sorter->lis_len = lis_length(sorter->stack_a, 0);
 	sorter->lis_head = 0;
 	current_head = 1;
-	while (current_head < sorter->stack_a.capacity)
+	while (current_head < sorter->stack_a.cap)
 	{
 		current_lis_len = lis_length(sorter->stack_a, current_head);
 		if (current_lis_len > sorter->lis_len)
@@ -80,7 +82,7 @@ void	find_longest_lis(t_sorter *sorter)
 			sorter->lis_len = current_lis_len;
 			sorter->lis_head = current_head;
 		}
-		if (current_lis_len == sorter->stack_a.capacity)
+		if (current_lis_len == sorter->stack_a.cap)
 			return ; 
 		current_head++;
 	}
@@ -94,22 +96,22 @@ int	lis_length(t_stack stack, int head)
 	int insertion_idx;
 
 //	lis_array[head] = stack.array[0];
-	lis_array[0] = stack.array[head];
+	lis_array[0] = stack.arr[head];
 	last = 0;
-	i = (head + 1) % stack.capacity;
+	i = (head + 1) % stack.cap;
 	while (i != head)
 	{
-		if (stack.array[i] > lis_array[last])
+		if (stack.arr[i] > lis_array[last])
 		{
 			last++;
-			lis_array[last] = stack.array[i];
+			lis_array[last] = stack.arr[i];
 		}
 		else
 		{
-			insertion_idx = upper_bound_sorted(lis_array, stack.array[i], last); 
-			lis_array[insertion_idx] = stack.array[i];
+			insertion_idx = upper_bound_sorted(lis_array, stack.arr[i], last); 
+			lis_array[insertion_idx] = stack.arr[i];
 		}
-		i = (i + 1) % stack.capacity;
+		i = (i + 1) % stack.cap;
 	}
 	return (last + 1);
 }
