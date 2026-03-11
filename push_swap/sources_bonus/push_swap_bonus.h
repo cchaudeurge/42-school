@@ -61,7 +61,7 @@ typedef struct	s_checker
 /*parse_and_check_bonus.c*/
 void	parse(t_checker *checker, int argc, char *argv[]);
 int		atol_check_toi(char *str, t_checker *checker);
-int		isduplicate(int *array, int current_index, int number)
+int		isduplicate(int *array, int current_index, int number);
 void	check_moves(t_checker *checker);
 int		is_sorted(t_stack stk);
 /*operations_bonus.c*/

@@ -115,7 +115,7 @@ char	*ft_gnl_with_nl(int fd)
 	line = NULL;
 	fail = read_into_buff(fd, &buff[fd]);
 	fail += extract_and_clean_buff(&buff[fd], &line, &fail);
-	if (fail || line[0] == '\0')
+	if (fail || !line || line[0] == '\0')
 	{
 		if (buff[fd])
 			ft_lstclear(&buff[fd], free);

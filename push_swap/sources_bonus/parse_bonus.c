@@ -1,5 +1,5 @@
 
-#include "push_swap.h"
+#include "push_swap_bonus.h"
 
 
 void	parse(t_checker *checker, int argc, char *argv[])
@@ -88,32 +88,14 @@ void	check_moves(t_checker *checker)
 		ft_putendl_fd("KO", 1);
 }
 
-		new_node = ft_lstnew(line);
-		if (!new_node)
-		{
-			free(line);
-			ft_lstclear(&line_lst, free);
-			close(fd);
-			clean_exit(game, EXIT_FAILURE, sys_err, "malloc");
-		}
-		ft_lstadd_back(&line_lst, new_node);
-		line = gnl_without_nl(fd);
-	}
-	return (line_lst);
-}
-
 int	is_sorted(t_stack stk)
 {
 	int	i;
-	int	*arr;
-	int	hd;
-	int	size;
-	int	cap;
 
 	i = 0;
 	while (i + 1 < stk.size)
 	{
-		if (stk.arr[(stk.hd + i) % stk] > stk.arr[(stk.hd + i + 1) % stk])
+		if (stk.arr[(stk.hd + i) % stk.cap] > stk.arr[(stk.hd + i + 1) % stk.cap])
 			return (0);
 		i++;
 	}

@@ -1,11 +1,11 @@
 #include "push_swap.h"
 
-void	create_move_lst(t_sorter *sorter)
+/*void	create_move_lst(t_sorter *sorter)
 {
 	sorter->move_lst = (t_list *)ft_calloc(1, sizeof(t_list));
 	if (!sorter->move_lst)
 		clean_exit(sorter, EXIT_FAILURE, system_error, "malloc");
-}
+}*/
 
 void	create_and_fill_stacks(t_sorter *sorter)
 {
@@ -120,19 +120,15 @@ int	cheap_insert_from_b_into_lis(t_sorter *sorter)
 		&& ((first_b < first_a && (first_b > last_a || last_a > first_a))
 			|| (first_b > first_a && first_b > last_a && first_a < last_a)))
 	{
-		printf("%d\n", first_b);
 		move(sorter, 1, push, stack_a);
-		printf("Oops\n");
 		return (1);
 	}
 	else if (sorter->numbers[first_a].lis && sorter->numbers[last_a].lis
 		&& ((last_b < first_a && (last_b > last_a || last_a > first_a))
 			|| (last_b > first_a && last_b > last_a && first_a < last_a)))
 	{
-		printf("%d\n", last_b);
 		move(sorter, 1, revrotate, stack_b);
 		move(sorter, 1, push, stack_a);
-		printf("Oops_bis\n");
 		return (1);
 	}
 	return (0);

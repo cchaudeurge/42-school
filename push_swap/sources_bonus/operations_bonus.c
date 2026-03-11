@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "push_swap_bonus.h"
 
 /*Swap the first 2 elements at the top of a stack.
  * Do nothing if there is only one element or none.*/
@@ -137,17 +137,17 @@ void	do_move(t_checker *checker, char *move)
 		do_rotate(checker, stack_b);
 	else if (ft_strncmp(move, "rr\n", 3) == 0)
 		do_rotate(checker, both_ab);
-	else if (ft_strncmp(move, "rra\n", 3) == 0)
+	else if (ft_strncmp(move, "rra\n", 4) == 0)
 		do_revrotate(checker, stack_a);
-	else if (ft_strncmp(move, "rrb\n", 3) == 0)
+	else if (ft_strncmp(move, "rrb\n", 4) == 0)
 		do_revrotate(checker, stack_b);
-	else if (ft_strncmp(move, "rrr\n", 3) == 0)
+	else if (ft_strncmp(move, "rrr\n", 4) == 0)
 		do_revrotate(checker, both_ab);
-	else if (ft_strncmp(move, "sa", 3) == 0)
+	else if (ft_strncmp(move, "sa\n", 3) == 0)
 		do_swap(checker, stack_a);
-	else if (ft_strncmp(move, "sb", 3) == 0)
+	else if (ft_strncmp(move, "sb\n", 3) == 0)
 		do_swap(checker, stack_b);
-	else if (ft_strncmp(move, "sss", 3) == 0)
+	else if (ft_strncmp(move, "ss\n", 4) == 0)
 		do_swap(checker, both_ab);
 	else
 		clean_exit(checker, EXIT_FAILURE, input_error, NULL);
