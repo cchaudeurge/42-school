@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/17 15:35:05 by cchaudeu          #+#    #+#             */
+/*   Updated: 2026/03/17 18:35:01 by cchaudeu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void	clean_exit(t_sorter *sorter, int exit_code, t_errtype errtype, char	*context)
+void	clean_exit(t_sorter *sorter, int exit_code, t_errtype errtype,
+			char *context)
 {
 	if (sorter)
 	{

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   empty_b.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/17 15:37:56 by cchaudeu          #+#    #+#             */
+/*   Updated: 2026/03/17 18:40:57 by cchaudeu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	min_a_to_top(t_sorter *sorter)
@@ -12,7 +24,7 @@ void	min_a_to_top(t_sorter *sorter)
 	else if (rot_count > 0)
 		move(sorter, ft_abs(rot_count), rotate, stack_a);
 }
-		
+
 void	empty_b(t_sorter *sorter)
 {
 	while (sorter->stack_b.size > 0)
@@ -27,45 +39,30 @@ void	empty_b(t_sorter *sorter)
 
 void	move_cheapest(t_sorter *sorter)
 {
-	int i;
+	int	i;
 
 	if (sorter->cheapest_to_a.a_rot < 0)
 	{
 		i = ft_abs(sorter->cheapest_to_a.a_rot);
 		move(sorter, i, revrotate, stack_a);
-//		printf("rra\n");
 	}
 	i = ft_abs(sorter->cheapest_to_a.r_rot);
 	if (sorter->cheapest_to_a.r_rot < 0)
-	{
 		move(sorter, i, revrotate, both_ab);
-//		printf("rrr\n");
-	}
 	else if (sorter->cheapest_to_a.r_rot > 0)
-	{
 		move(sorter, i, rotate, both_ab);
-//		printf("rr\n");
-	}
 	i = ft_abs(sorter->cheapest_to_a.b_rot);
 	if (sorter->cheapest_to_a.b_rot < 0)
-	{
 		move(sorter, i, revrotate, stack_b);
-//		printf("rrb\n");
-	}
 	else if (sorter->cheapest_to_a.b_rot > 0)
-	{
 		move(sorter, i, rotate, stack_b);
-//		printf("rb\n");
-	}
 	if (sorter->cheapest_to_a.a_rot > 0)
 	{
 		i = ft_abs(sorter->cheapest_to_a.a_rot);
 		move(sorter, i, rotate, stack_a);
-//		printf("ra\n");
 	}
 	move(sorter, 1, push, stack_a);
-//	printf("pa\n");
-}	
+}
 
 void	optimize_rotations(t_cost *cost)
 {

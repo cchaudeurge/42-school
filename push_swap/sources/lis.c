@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lis.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/17 15:38:54 by cchaudeu          #+#    #+#             */
+/*   Updated: 2026/03/17 18:40:52 by cchaudeu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	flag_longest_lis(t_sorter *sorter)
@@ -70,7 +82,7 @@ void	find_longest_lis(t_sorter *sorter)
 {
 	int	current_head;
 	int current_lis_len;
-	
+
 	sorter->lis_len = lis_length(sorter->stack_a, 0);
 	sorter->lis_head = 0;
 	current_head = 1;
@@ -83,7 +95,7 @@ void	find_longest_lis(t_sorter *sorter)
 			sorter->lis_head = current_head;
 		}
 		if (current_lis_len == sorter->stack_a.cap)
-			return ; 
+			return ;
 		current_head++;
 	}
 }
@@ -108,7 +120,7 @@ int	lis_length(t_stack stack, int head)
 		}
 		else
 		{
-			insertion_idx = upper_bound_sorted(lis_array, stack.arr[i], last); 
+			insertion_idx = upper_bound_sorted(lis_array, stack.arr[i], last);
 			lis_array[insertion_idx] = stack.arr[i];
 		}
 		i = (i + 1) % stack.cap;
