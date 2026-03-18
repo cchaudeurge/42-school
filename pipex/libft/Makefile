@@ -23,7 +23,7 @@ SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	   ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c ft_lstiter.c \
 	   ft_lstlast.c ft_lstnew.c ft_lstsize.c ft_gnl_with_nl.c \
 	   ft_gnl_without_nl.c ft_abs.c ft_charcount.c ft_max_abs.c \
-	   ft_lstadd_after_node.c ft_strjoin_array.c
+	   ft_lstadd_after_node.c ft_strjoin_array.c ft_strjoin_sep.c
 
 OBJS = $(SRCS:.c=.o)
 AR = ar rcs
