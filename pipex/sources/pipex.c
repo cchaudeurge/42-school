@@ -11,7 +11,6 @@ char	*get_cmd_path(char *cmd, char *envp[])
 	char	*path_env;
 	char	**paths;
 	char	*cmd_path;
-	char	*temp;
 	int	i;
 
 	path_env = NULL;
@@ -26,8 +25,13 @@ char	*get_cmd_path(char *cmd, char *envp[])
 		i++;
 	}
 	paths = ft_split(path_env, ':');
+	if (!paths)
+		//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+		clean_exit;
 	i = 0;
 	while (paths[i])
 	{
-		temp = ft_strjoin
-
+		cmd_path = ft_strjoin_sep(paths[i], cmd, "/");
+		if (!cmd_path)
+			clean exit //XXXXXXXXXXXXXXXX
+		
