@@ -1,6 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_bonus.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/18 20:18:27 by cchaudeu          #+#    #+#             */
+/*   Updated: 2026/03/18 20:27:07 by cchaudeu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "push_swap_bonus.h"
-
+#include "checker_bonus.h"
 
 void	parse(t_checker *checker, int argc, char *argv[])
 {
@@ -13,8 +23,8 @@ void	parse(t_checker *checker, int argc, char *argv[])
 	checker->stack_b.arr = (int *)malloc(stack_capacity * sizeof(int));
 	if (!checker->stack_a.arr || !checker->stack_b.arr)
 		clean_exit(checker, EXIT_FAILURE, system_error, "malloc");
-	//checker->stack_b.hd = 0;
-	//checker->stack_b.size = 0;
+	checker->stack_b.hd = 0;
+	checker->stack_b.size = 0;
 	checker->stack_b.cap = stack_capacity;
 	i = 0;
 	while (argv[i + 1])
@@ -57,7 +67,7 @@ int	atol_check_toi(char *str, t_checker *checker)
 	return ((int)(sign * nbr));
 }
 
-int isduplicate(int *array, int current_index, int number)
+int	isduplicate(int *array, int current_index, int number)
 {
 	int	i;
 
@@ -95,7 +105,8 @@ int	is_sorted(t_stack stk)
 	i = 0;
 	while (i + 1 < stk.size)
 	{
-		if (stk.arr[(stk.hd + i) % stk.cap] > stk.arr[(stk.hd + i + 1) % stk.cap])
+		if (stk.arr[(stk.hd + i) % stk.cap]
+			> stk.arr[(stk.hd + i + 1) % stk.cap])
 			return (0);
 		i++;
 	}

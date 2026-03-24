@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 21:15:35 by cchaudeu          #+#    #+#             */
-/*   Updated: 2026/03/17 18:33:49 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2026/03/18 20:35:04 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ typedef struct s_number
 	bool	lis;
 }				t_number;
 
-/*For stack_a, the pivot is the smallest of the sorted sequence, for stack_b,
- * the pivot is sorter->nub_qty / 2*/
 typedef struct s_stack
 {
 	int	*arr;
@@ -106,14 +104,18 @@ typedef struct s_sorter
 }				t_sorter;
 
 /*FUNCTIONS*/
-/*main.c testing XXXXXXXXXXXXXXXXXXXXXXXXX*/
+/*main.c for testing*/
+/*void	print_lis(t_sorter *sorter);
+void	print_numbers(t_number *numbers, int size);
+void	print_stack(t_sorter sorter, t_stack stack, char a_or_b);
+void	print_move_count(t_sorter sorter);*/
+/*push_swap.c*/
 void	push_swap(int argc, char *argv[]);
 /*parse.c*/
 void	parse(t_sorter *sorter, int argc, char *argv[]);
 int		atol_check_toi(char *str, t_sorter *sorter);
 int		isduplicate(t_number *numbers, int current_index, int number);
 /*stacks_init.c*/
-void	create_move_lst(t_sorter *sorter);
 void	create_and_fill_stacks(t_sorter *sorter);
 int		bubble_sort(t_number *numbers, int size);
 void	fill_stack_b(t_sorter *sorter);

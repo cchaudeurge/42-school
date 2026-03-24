@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   optimizations.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 15:39:51 by cchaudeu          #+#    #+#             */
-/*   Updated: 2026/03/17 15:39:55 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2026/03/18 14:11:40 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	optimize_lis(t_sorter *sorter)
 	move(sorter, 1, swap, stack_a);
 	find_longest_lis(sorter);
 	if (sorter->lis_len <= initial_lis_len)
- 	{
+	{
 		move(sorter, 1, swap, stack_a);
 		find_longest_lis(sorter);
 	}
@@ -49,8 +49,8 @@ void	optimize_r_rr(t_list *move_lst)
 	{
 		move1 = move_lst->content;
 		move2 = move_lst->next->content;
-		if (move1->operation + move2->operation == rotate + revrotate &&
-			move1->stack == move2->stack && move1->count * move2->count != 0)
+		if (move1->operation + move2->operation == rotate + revrotate
+			&& move1->stack == move2->stack && move1->count * move2->count != 0)
 		{
 			move1->count--;
 			move2->count--;
@@ -68,8 +68,8 @@ void	optimize_pa_pb(t_list *move_lst)
 	{
 		move1 = move_lst->content;
 		move2 = move_lst->next->content;
-		if (move1->operation * move2->operation == 1 &&
-			move1->stack != move2->stack && move1->count * move2->count != 0)
+		if (move1->operation * move2->operation == 1
+			&& move1->stack != move2->stack && move1->count * move2->count != 0)
 		{
 			move1->count--;
 			move2->count--;
@@ -103,4 +103,3 @@ void	optimize_ra_pa_rra(t_sorter *sorter, t_list *move_lst)
 		move_lst = move_lst->next;
 	}
 }
-

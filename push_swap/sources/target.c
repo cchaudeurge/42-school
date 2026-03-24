@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   target.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 15:41:42 by cchaudeu          #+#    #+#             */
-/*   Updated: 2026/03/17 15:42:18 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2026/03/18 19:11:04 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int	find_target_idx(int nbr, t_stack *stack)
 	return (target_idx);
 }
 
-int find_smallest_bigger(int x, t_stack s, int lo, int hi)
+int	find_smallest_bigger(int x, t_stack s, int lo, int hi)
 {
 	int	mi;
-	int smallest_bigger_found;
+	int	smallest_bigger_found;
 
 	smallest_bigger_found = -1;
 	mi = (find_x_idx(s.max, s, lo, hi) - s.hd + s.cap) % s.cap;
@@ -45,7 +45,6 @@ int find_smallest_bigger(int x, t_stack s, int lo, int hi)
 		if (x < s.arr[(s.hd + mi) % s.cap])
 		{
 			smallest_bigger_found = s.arr[(s.hd + mi) % s.cap];
-			//hi = mi + 1;
 			hi = mi - 1;
 		}
 		else
@@ -63,12 +62,12 @@ int	find_x_idx(int x, t_stack s, int lo, int hi)
 		mi = lo + (hi - lo) / 2;
 		if (x == s.arr[(s.hd + mi) % s.cap])
 			return ((s.hd + mi) % s.cap);
-		else if (s.arr[(s.hd + mi) % s.cap]	<= s.arr[(s.hd + hi) % s.cap])
+		else if (s.arr[(s.hd + mi) % s.cap] <= s.arr[(s.hd + hi) % s.cap])
 		{
-			if (s.arr[(s.hd + mi) % s.cap] < x 
+			if (s.arr[(s.hd + mi) % s.cap] < x
 				&& x <= s.arr[(s.hd + hi) % s.cap])
 				lo = mi + 1;
-			else 
+			else
 				hi = mi - 1;
 		}
 		else
@@ -76,7 +75,7 @@ int	find_x_idx(int x, t_stack s, int lo, int hi)
 			if (s.arr[(s.hd + lo) % s.cap] <= x
 				&& x < s.arr[(s.hd + mi) % s.cap])
 				hi = mi - 1;
-			else 
+			else
 				lo = mi + 1;
 		}
 	}

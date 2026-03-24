@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   checker_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 21:15:35 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/10/17 16:13:19 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2026/03/18 20:35:20 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@
 /*Libft*/
 # include "../libft/libft.h"
 
-typedef enum	e_errtype
+typedef enum e_errtype
 {
 	system_error,
 	input_error,
 	no_error
 }				t_errtype;
 
-typedef enum	e_stack_id
+typedef enum e_stack_id
 {
 	stack_a,
 	stack_b,
@@ -42,21 +42,20 @@ typedef enum	e_stack_id
 }				t_stack_id;
 
 /*STRUCTS*/
-typedef struct	s_stack
+typedef struct s_stack
 {
 	int	*arr;
 	int	hd;
 	int	size;
-	int cap;
+	int	cap;
 }				t_stack;
 
-
-typedef struct	s_checker
+typedef struct s_checker
 {
 	t_stack		stack_a;
 	t_stack		stack_b;
 }				t_checker;
-	
+
 /*FUNCTIONS*/
 /*parse_and_check_bonus.c*/
 void	parse(t_checker *checker, int argc, char *argv[]);
@@ -72,6 +71,6 @@ void	do_revrotate(t_checker *checker, t_stack_id stack_id);
 void	do_move(t_checker *checker, char *move);
 /*cleanup_bonus.c*/
 void	clean_exit(t_checker *checker, int exit_code, t_errtype errtype, char
-*context);
+			*context);
 
 #endif

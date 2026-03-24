@@ -1,6 +1,19 @@
-#include "push_swap_bonus.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cleanup_bonus.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/18 20:17:11 by cchaudeu          #+#    #+#             */
+/*   Updated: 2026/03/18 20:23:04 by cchaudeu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	clean_exit(t_checker *checker, int exit_code, t_errtype errtype, char	*context)
+#include "checker_bonus.h"
+
+void	clean_exit(t_checker *checker, int exit_code,
+	t_errtype errtype, char	*context)
 {
 	if (checker)
 	{

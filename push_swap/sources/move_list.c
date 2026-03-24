@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   move_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 15:39:18 by cchaudeu          #+#    #+#             */
-/*   Updated: 2026/03/17 15:39:23 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:57:09 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	record_move(t_sorter *sorter, int count, t_operation operation, t_stack_id stack)
+void	record_move(t_sorter *sorter, int count,
+			t_operation operation, t_stack_id stack)
 {
 	t_list	*prev_move_node;
 	t_list	*new_node;
@@ -65,7 +66,6 @@ void	put_move_lst(t_list *move_lst)
 	}
 }
 
-
 void	put_move(t_move move)
 {
 	if (move.operation == swap)
@@ -86,6 +86,3 @@ void	put_move(t_move move)
 		write(1, "r", 1);
 	write(1, "\n", 1);
 }
-
-
-

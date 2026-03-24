@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_abs.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/18 20:30:17 by cchaudeu          #+#    #+#             */
-/*   Updated: 2026/03/18 20:30:23 by cchaudeu         ###   ########.fr       */
+/*   Created: 2026/03/24 19:34:07 by cchaudeu          #+#    #+#             */
+/*   Updated: 2026/03/24 19:44:43 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-int	ft_abs(int nbr)
+void	ft_free_str_array(char **array)
 {
-	if (nbr >= 0)
-		return (nbr);
-	else
-		return (-1 * nbr);
+	int	i;
+
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }

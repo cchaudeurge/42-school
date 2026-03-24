@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 17:20:18 by cchaudeu          #+#    #+#             */
-/*   Updated: 2026/03/17 15:39:46 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2026/03/18 17:30:52 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	do_swap(t_sorter *sorter, t_stack_id stack_id)
 
 void	do_push(t_sorter *sorter, t_stack_id stack_id)
 {
-	t_stack *source;
+	t_stack	*source;
 	t_stack	*target;
 	int		tar_new_head;
 
@@ -60,6 +60,8 @@ void	do_push(t_sorter *sorter, t_stack_id stack_id)
 		target = &sorter->stack_b;
 		source = &sorter->stack_a;
 	}
+	else
+		return ;
 	if (source->size >= 1)
 	{
 		tar_new_head = (target->hd - 1 + target->cap) % target->cap;
@@ -84,11 +86,14 @@ void	do_rotate(t_sorter *sorter, t_stack_id stack_id)
 	{
 		do_rotate(sorter, stack_a);
 		do_rotate(sorter, stack_b);
+		return ;
 	}
 	else if (stack_id == stack_a)
 		stack = &sorter->stack_a;
 	else if (stack_id == stack_b)
 		stack = &sorter->stack_b;
+	else
+		return ;
 	if (stack->size >= 2)
 	{
 		new_head = (stack->hd + 1) % stack->cap;
@@ -111,11 +116,14 @@ void	do_revrotate(t_sorter *sorter, t_stack_id stack_id)
 	{
 		do_revrotate(sorter, stack_a);
 		do_revrotate(sorter, stack_b);
+		return ;
 	}
 	else if (stack_id == stack_a)
 		stack = &sorter->stack_a;
 	else if (stack_id == stack_b)
 		stack = &sorter->stack_b;
+	else
+		return ;
 	if (stack->size >= 2)
 	{
 		new_head = (stack->hd - 1 + stack->cap) % stack->cap;
@@ -125,7 +133,8 @@ void	do_revrotate(t_sorter *sorter, t_stack_id stack_id)
 	}
 }
 
-void	move(t_sorter *sorter, int count, t_operation operation, t_stack_id stack)
+void	move(t_sorter *sorter, int count,
+			t_operation operation, t_stack_id stack)
 {
 	int	first_a;
 
@@ -137,16 +146,13 @@ void	move(t_sorter *sorter, int count, t_operation operation, t_stack_id stack)
 		else if (operation == push)
 		{
 			do_push(sorter, stack);
-			//maybe need to also change LIS status of first_a below
 			if (stack == stack_a)
 			{
 				sorter->lis_len++;
 				first_a = sorter->stack_a.arr[sorter->stack_a.hd];
 				sorter->numbers[first_a].lis = true;
-				if (first_a < sorter->stack_a.min)
-					sorter->stack_a.min = first_a;
-				else if (first_a > sorter->stack_a.max)
-					sorter->stack_a.max = first_a;
+				sorter->stack_a.min = ft_min(first_a, sorter->stack_a.min);
+				sorter->stack_a.max = ft_max(first_a, sorter->stack_a.max);
 			}
 		}
 		else if (operation == rotate)

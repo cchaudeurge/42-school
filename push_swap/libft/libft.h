@@ -6,7 +6,7 @@
 /*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 16:07:13 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/12/10 22:52:07 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2026/03/18 20:33:04 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,9 @@ char	*ft_gnl_with_nl(int fd);
 char	*ft_gnl_without_nl(int fd);
 
 /*Math*/
-int	ft_abs(int nbr);
-int	ft_max_abs(int a, int b);
+int		ft_abs(int nbr);
+int		ft_max_abs(int a, int b);
+int		ft_max(int a, int b);
+int		ft_min(int a, int b);
 
 #endif

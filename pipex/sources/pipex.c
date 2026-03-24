@@ -4,27 +4,23 @@ int	main(int argc, char	*argv[], char *envp[])
 {
 	if (argc != 5)
 
+}
+
+void	pipex(int argc, char *argv[], char *envp[])
+{
+
 /*ft_split to get the command args*/
 
 char	*get_cmd_path(char *cmd, char *envp[])
 {
-	char	*path_env;
 	char	**paths;
 	char	*cmd_path;
 	int	i;
 
-	path_env = NULL;
 	i = 0;
-	while(envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{
-			path_env = envp[i] + 5;
-			break ;
-		}
+	while(envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
-	}
-	paths = ft_split(path_env, ':');
+	paths = ft_split(envp + 5, ':');
 	if (!paths)
 		//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 		clean_exit;
@@ -33,5 +29,19 @@ char	*get_cmd_path(char *cmd, char *envp[])
 	{
 		cmd_path = ft_strjoin_sep(paths[i], cmd, "/");
 		if (!cmd_path)
-			clean exit //XXXXXXXXXXXXXXXX
-		
+		//XXXXXXXXXXXXXXXX
+		//free(paths);
+			clean exit
+		if (access(cmd_path, X_OK) == 0)
+		{
+			ft_free_str_array(paths);
+			return (cmd_path);
+		}
+		free(cmd_path);
+		i++;
+	}
+	ft_free_str_array(paths);
+	return (NULL);
+}
+
+

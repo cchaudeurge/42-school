@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_abs.c                                           :+:      :+:    :+:   */
+/*   ft_min.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/18 20:30:17 by cchaudeu          #+#    #+#             */
-/*   Updated: 2026/03/18 20:30:23 by cchaudeu         ###   ########.fr       */
+/*   Created: 2026/03/18 13:46:45 by cchaudeu          #+#    #+#             */
+/*   Updated: 2026/03/18 13:59:39 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_abs(int nbr)
+int	ft_min(int a, int b)
 {
-	if (nbr >= 0)
-		return (nbr);
+	if (a <= b)
+		return (a);
 	else
-		return (-1 * nbr);
+		return (b);
 }

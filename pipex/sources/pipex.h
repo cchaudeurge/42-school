@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 21:15:35 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/10/17 16:13:19 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2026/03/24 20:40:51 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,13 @@
 /*Libft*/
 # include "../libft/libft.h"
 
+# define READ	0
+# define WRITE 	0
+
 typedef struct s_piper
 {
+	char	**paths;
+
 	
 typedef enum	e_errtype
 {
@@ -39,12 +44,12 @@ typedef enum	e_errtype
 	no_error
 }				t_errtype;
 
-typedef enum	e_stack_id
+typedef enum e_pipe_end
 {
-	stack_a,
+	,
 	stack_b,
 	both_ab
-}				t_stack_id;
+}				t_pipe_end;
 
 typedef enum	e_operation
 {

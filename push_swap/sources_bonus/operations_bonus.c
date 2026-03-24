@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   operations1.c                                      :+:      :+:    :+:   */
+/*   operations_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 17:20:18 by cchaudeu          #+#    #+#             */
-/*   Updated: 2025/10/17 16:06:31 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2026/03/18 20:25:45 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap_bonus.h"
+#include "checker_bonus.h"
 
 /*Swap the first 2 elements at the top of a stack.
  * Do nothing if there is only one element or none.*/
@@ -46,7 +46,7 @@ void	do_swap(t_checker *checker, t_stack_id stack_id)
 
 void	do_push(t_checker *checker, t_stack_id stack_id)
 {
-	t_stack *source;
+	t_stack	*source;
 	t_stack	*target;
 	int		tar_new_head;
 
@@ -60,6 +60,8 @@ void	do_push(t_checker *checker, t_stack_id stack_id)
 		target = &checker->stack_b;
 		source = &checker->stack_a;
 	}
+	else
+		return ;
 	if (source->size >= 1)
 	{
 		tar_new_head = (target->hd - 1 + target->cap) % target->cap;
@@ -84,11 +86,14 @@ void	do_rotate(t_checker *checker, t_stack_id stack_id)
 	{
 		do_rotate(checker, stack_a);
 		do_rotate(checker, stack_b);
+		return ;
 	}
 	else if (stack_id == stack_a)
 		stack = &checker->stack_a;
 	else if (stack_id == stack_b)
 		stack = &checker->stack_b;
+	else
+		return ;
 	if (stack->size >= 2)
 	{
 		new_head = (stack->hd + 1) % stack->cap;
@@ -111,11 +116,14 @@ void	do_revrotate(t_checker *checker, t_stack_id stack_id)
 	{
 		do_revrotate(checker, stack_a);
 		do_revrotate(checker, stack_b);
+		return ;
 	}
 	else if (stack_id == stack_a)
 		stack = &checker->stack_a;
 	else if (stack_id == stack_b)
 		stack = &checker->stack_b;
+	else
+		return ;
 	if (stack->size >= 2)
 	{
 		new_head = (stack->hd - 1 + stack->cap) % stack->cap;

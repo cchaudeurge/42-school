@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cchaudeu <cchaudeu@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: cchaudeu <cchaudeu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 15:40:48 by cchaudeu          #+#    #+#             */
-/*   Updated: 2026/03/17 15:40:57 by cchaudeu         ###   ########.fr       */
+/*   Updated: 2026/03/18 20:14:47 by cchaudeu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	push_swap(int argc, char *argv[])
 {
 	t_sorter	sorter;
-	
+
 	ft_bzero(&sorter, sizeof(t_sorter));
 	parse(&sorter, argc, argv);
 	create_and_fill_stacks(&sorter);

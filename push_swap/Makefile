@@ -15,6 +15,7 @@ SRCS_DIR		= ./sources/
 BONUS_DIR		= ./sources_bonus/
 SRCS			= $(addprefix $(SRCS_DIR),	\
 				main.c						\
+				push_swap.c					\
 				parse.c						\
 				stacks_init.c				\
 				lis.c						\
